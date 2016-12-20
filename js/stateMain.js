@@ -5,9 +5,9 @@ var StateMain={
      		game.scale.forceOrientation(true, false);
     	}
     	game.load.image("background", "images/background.png");
-    	game.load.spritesheet("mondo", "images/dragon.png", 120, 85,4);
-    	game.load.spritesheet("mouse", "images/candy.png", 52, 50, 8);
-    //	game.load.spritesheet("chihuahua.png", "images/chihuahua.png", 100, 36, 1);
+    	game.load.spritesheet("mondo", "images/mondo.png", 120, 85,3);
+    	game.load.spritesheet("mouse", "images/mouse.png", 52, 50, 4);
+    	game.load.spritesheet("chihuahua.png", "images/chihuahua.png", 52, 50, 4);
     	
 	},
 	create: function() {
