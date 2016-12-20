@@ -4,6 +4,7 @@ var gobbleMouse;
 var StateMain={
     init: function() {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
+        mondoVengence = 0;
     },
 	preload: function() {
      	if (screen.width < 1500) {
@@ -41,6 +42,7 @@ var StateMain={
         this.bellyBop();
         this.mondoEatDog();
         this.mondoEatMouse();
+        this.mondoVengePoints();
 	},
     setListeners:function() {
         if (screen.width < 1500) {
@@ -52,10 +54,10 @@ var StateMain={
         gobbleDog = game.input.keyboard.addKey(Phaser.Keyboard.D);
     },
     mondoEatDog: function() {
-        this.mondo.animations.add('eatDog', [3, 4], 2, true);
+        this.mondo.animations.add('eatDog', [3, 4, 4, 4, 1], 2, false);
     },
     mondoEatMouse: function() {
-        this.mondo.animations.add('eatMouse', [2, 5, 2, 5, 2], 2, false);
+        this.mondo.animations.add('eatMouse', [2, 5, 5, 5, 2], 2, false);
     },
     walkMondo: function(){
         this.mondo.animations.add('walk', [0, 1], 2, true);
@@ -78,6 +80,10 @@ var StateMain={
     rightWay:function() {
         document.getElementById("wrongWay").style.display="none";
     },
+    mondoVengePoints: function(points) {
+        points = points || 0;
+        mondoVengence += points;
+    },
 	update: function() {
         if (cursors.left.isDown){
              //move cat to the left
@@ -88,7 +94,6 @@ var StateMain={
             this.mondo.animations.play('walk');
             this.mondo.x += 1;
         }
-
         if (cursors.up.isDown) {
             this.mondo.animations.stop('walk');
             this.mouse.animations.stop('walk');
@@ -97,17 +102,21 @@ var StateMain={
             this.mouse.x += 10;
             this.deadMouse.x = this.background.x+450
             this.deadMouse.y = this.background.y+415;
-            this.mouse.kill();
         }
         if(cursors.up.isUp) {
             this.walkMouse();
         }
         if (gobbleDog.isDown) {
             this.mondo.animations.play('eatDog');
+            this.mondoVengePoints(25);
+            console.log("mondo vengence is now:", mondoVengence);
+
         }
         if (gobbleMouse.isDown) {
             this.mondo.animations.play('eatMouse');
             this.deadMouse.kill();
+            this.mondoVengePoints(5);
+            console.log("mondo vengence is now:", mondoVengence);
         }
 	},
 }
