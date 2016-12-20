@@ -5,14 +5,12 @@ var StateMain={
      		game.scale.forceOrientation(true, false);
     	}
     	game.load.image("background", "images/background.png");
-    	game.load.spritesheet("mondo", "images/mondo.png", 120, 85,3);
-    	game.load.spritesheet("mouse", "images/mouse.png", 52, 50, 4);
-    	game.load.spritesheet("chihuahua.png", "images/chihuahua.png", 52, 50, 4);
+    	game.load.spritesheet("mondo", "images/mondo.png", 315, 294, 3);
+    	game.load.spritesheet("mouse", "images/mouse.png", 166, 170, 4);
+    	game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 137, 4);
     	
 	},
 	create: function() {
-        this.mondo = game.add.sprite(0,0,"mondo");
-        this.mouse = game.add.sprite(30,30,"mouse");
         //background
         this.background = game.add.tileSprite(0, game.height-480, game.width, 480, 'background');
         // ipad fix:
@@ -21,16 +19,28 @@ var StateMain={
             this.top=this.background.y;
             this.bottom = this.background.y+360;
         }
+        
+        this.mondo = game.add.sprite(0,this.background.y + 147,"mondo");
+        this.mouse = game.add.sprite(30,30,"mouse");
+
         this.setListeners();
-        cursors = game.input.keyboard.createCursorKeys();
-        this.mondo.animations.add('fly', [0,1,2,3], 12, true);
-        this.mondo.animations.play('fly');
+        this.animateMondo();
+        this.animateMouse();
 	},
     setListeners:function() {
         if (screen.width < 1500) {
             game.scale.enterIncorrectOrientation.add(this.wrongWay,this);
             game.scale.leaveIncorrectOrientation.add(this.rightWay,this);
         }
+        cursors = game.input.keyboard.createCursorKeys();
+    },
+    animateMondo: function(){
+        this.mondo.animations.add('walk', [0,1,2], 12, true);
+        this.mondo.animations.play('walk');
+    },
+    animateMouse: function(){
+        this.mouse.animations.add('walk', [0,1,2,3], 12, true);
+        this.mouse.animations.play('walk');
     },
     wrongWay:function() {
         document.getElementById("wrongWay").style.display="block";
@@ -39,13 +49,13 @@ var StateMain={
         document.getElementById("wrongWay").style.display="none";
     },
 	update: function() {
-        // if (cursors.left.isDown){
-        //     //move cat to the left
-        //     this.mondo.x -= 1;
-        // }
-        // if(cursors.right.isDown){
-        //     this.mondo.x += 1;
-        // }
+        if (cursors.left.isDown){
+             //move cat to the left
+             this.mondo.x -= 5;
+        }
+        if(cursors.right.isDown){
+            this.mondo.x += 5;
+        }
 	},
 }
 
