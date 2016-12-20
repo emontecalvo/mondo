@@ -9,7 +9,7 @@ var StateMain={
      	if (screen.width < 1500) {
      		game.scale.forceOrientation(true, false);
     	}
-    	game.load.image("background", "images/background.png");
+    	game.load.image("background", "images/background1.png");
     	game.load.spritesheet("mondo", "images/mondo.png", 320, 265, 8);
     	game.load.spritesheet("mouse", "images/mouse.png", 166, 170, 4);
     	game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 137, 4);
