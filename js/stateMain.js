@@ -38,11 +38,13 @@ var StateMain={
         //text for vegence score
         this.textScore = game.add.text(game.world.centerX, this.top+60, "0");
         this.textScore.fill="000000";
+        this.textScore.font= "VT323";
         this.textScore.fontSize=40;
         this.textScore.anchor.set(0.5,0.5);
         // label for vengence score
         this.labelScore = game.add.text(game.world.centerX, this.top+20, "vengence points:");
         this.labelScore.fill="000000";
+        this.labelScore.font= "VT323";
         this.labelScore.fontSize=40;
         this.labelScore.anchor.set(0.5,0.5);
 
