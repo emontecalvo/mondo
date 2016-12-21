@@ -1,5 +1,7 @@
 // var game is our global EVERYTHING
 var game;
+var score;
+var mondoVengence;
 //window on load kicks off running our code
 window.onload = function()
 {
@@ -19,5 +21,6 @@ window.onload = function()
 		game=new Phaser.Game(window.innerWidth,window.innerHeight,Phaser.AUTO,"ph_game");		
 	}
     game.state.add("StateMain",StateMain);
-    game.state.start("StateMain");
+    game.state.add("StateHome",StateHome);
+    game.state.start("StateHome");
 }
