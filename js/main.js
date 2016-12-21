@@ -1,6 +1,5 @@
 // var game is our global EVERYTHING
 var game;
-var score;
 var mondoVengence;
 //window on load kicks off running our code
 window.onload = function()
