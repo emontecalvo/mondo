@@ -12,6 +12,7 @@ var StateMain={
     	}
     	game.load.image("background", "images/background1.png");
     	game.load.spritesheet("mondo", "images/mondo.png", 320, 265, 8);
+        game.load.spritesheet("playBtn", "images/playBtns.png", 624, 290, 4);
     	game.load.spritesheet("mouse", "images/mouse.png", 166, 170, 4);
     	game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 137, 4);
         game.load.spritesheet("deadDog", "images/deadDog.png", 496, 424, 1);
@@ -34,6 +35,21 @@ var StateMain={
         this.deadMouse = game.add.sprite(this.background.x-450, this.background.y-415, "deadMouse");
         this.deadMouse.scale.setTo(0.2, 0.2);
         this.mouse = game.add.sprite(600,this.background.y+300,"mouse");
+        
+
+
+
+        // buttons
+       // this.phoneLeft = game.add.button(100, this.background.y + 440, "playBtn", this, 0);
+       // this.phoneRight = game.add.button(400, this.background.y + 440, "playBtn", this, 1);
+        this.phoneBop = game.add.button(200, this.background.y + 440, "playBtn", this.bellyBop, this, 2);
+        this.phoneJump = game.add.button(300, this.background.y + 440, "playBtn", this.jump, this, 3);
+
+//this.phoneLeft.scale.setTo(0.15, 0.15);
+ //       this.phoneRight.scale.setTo(0.15, 0.15);
+        this.phoneBop.scale.setTo(0.15, 0.15);
+        this.phoneJump.scale.setTo(0.15, 0.15);
+
 
         //text for vegence score
         this.textScore = game.add.text(game.world.centerX, this.top+60, "0");
@@ -78,6 +94,9 @@ var StateMain={
     },
     bellyBop: function() {
         this.mondo.animations.add('belly', [6], 6, true);
+    },
+    jump: function() {
+        console.log("mondo jump!");
     },
     walkMouse: function(){
         this.mouse.animations.add('walk', [0], 12, false);
