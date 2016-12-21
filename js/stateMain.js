@@ -4,6 +4,7 @@ var gobbleMouse;
 var mouse1dead;
 var walkingLeft;
 var walkingRight;
+
 var StateMain={
     init: function() {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -35,7 +36,10 @@ var StateMain={
         this.mondo = game.add.sprite(0,this.background.y + 250,"mondo");
         this.mondo.scale.setTo(0.8,0.8);
         //this.mondo.scale.x = 0.5;
+        this.mondo.fixedToCamera = true;
 
+
+       // this.mouse = game.add.sprite(600,this.background.y+300,"mouse");
         this.mouse = game.add.sprite(600,this.background.y+300,"mouse");
 
         // buttons
@@ -71,6 +75,7 @@ var StateMain={
         this.mondoEatDog();
         this.mondoEatMouse();
         this.mondoVengePoints();
+
 	},
     setListeners:function() {
         if (screen.width < 1500) {
@@ -139,14 +144,18 @@ var StateMain={
     },
 	update: function() {
         if (cursors.left.isDown || this.walkingLeft) {
-             this.walkingRight = false;
-             this.mondo.animations.play('walk');
-             this.mondo.x -= 1;
+            this.walkingRight = false;
+            this.mondo.animations.play('walk');
+            this.background.tilePosition.x += 1;
+            this.mondo.x -= 1;
+            game.camera.x -= 1;
         }
         if(cursors.right.isDown || this.walkingRight) {
+            this.background.tilePosition.x -= 1;
             this.walkingLeft = false;
             this.mondo.animations.play('walk');
             this.mondo.x += 1;
+            game.camera.x += 1;
         }
         if (cursors.up.isDown) {
             if (this.mondo.x <= this.mouse.x) {
