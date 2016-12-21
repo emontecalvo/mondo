@@ -35,6 +35,17 @@ var StateMain={
         this.deadMouse.scale.setTo(0.2, 0.2);
         this.mouse = game.add.sprite(600,this.background.y+300,"mouse");
 
+        //text for vegence score
+        this.textScore = game.add.text(game.world.centerX, this.top+60, "0");
+        this.textScore.fill="000000";
+        this.textScore.fontSize=40;
+        this.textScore.anchor.set(0.5,0.5);
+        // label for vengence score
+        this.labelScore = game.add.text(game.world.centerX, this.top+20, "vengence points:");
+        this.labelScore.fill="000000";
+        this.labelScore.fontSize=40;
+        this.labelScore.anchor.set(0.5,0.5);
+
         this.setListeners();
         this.walkMondo();
         this.walkMouse();
@@ -109,6 +120,7 @@ var StateMain={
         if (gobbleDog.isDown) {
             this.mondo.animations.play('eatDog');
             this.mondoVengePoints(25);
+            this.textScore.text=mondoVengence;
             console.log("mondo vengence is now:", mondoVengence);
 
         }
@@ -116,6 +128,7 @@ var StateMain={
             this.mondo.animations.play('eatMouse');
             this.deadMouse.kill();
             this.mondoVengePoints(5);
+            this.textScore.text=mondoVengence;
             console.log("mondo vengence is now:", mondoVengence);
         }
 	},
