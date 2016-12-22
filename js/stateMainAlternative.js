@@ -12,6 +12,7 @@ var StateMain={
         game.physics.startSystem(Phaser.Physics.ARCADE);
         this.mondoVengence = 0;
         this.enemyIndex = 0;
+        this.FoodIndex = 0;
     },
 	preload: function() {
      	if (screen.width < 1500) {
@@ -22,6 +23,7 @@ var StateMain={
         game.load.spritesheet("playBtn", "images/playBtns.png", 624, 290, 4);
     	game.load.spritesheet("mouse", "images/mouse.png", 168, 170, 8);
     	game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 130, 8);
+        game.load.spritesheet("food", "images/food.png", 67, 78, 8);
         game.load.spritesheet("deadDog", "images/deadDog.png", 496, 424, 1);
         game.load.spritesheet("deadMouse", "images/deadMouse.png", 602, 224, 1);
 	},
@@ -50,6 +52,15 @@ var StateMain={
 
         }
 
+        // food
+        this.foodie = game.add.group();
+        this.foodie.enableBody = true;
+        this.foodie.physicsBodyType = Phaser.Physics.ARCADE;
+        for (var i = 0; i < 8; i++) {
+            var food = this.foodie.create(game.width, this.background.y+100, 'food');
+            this.setFoodAnimations(food);
+        }
+
         mondoVengence = 0;
 
         this.mice.setAll("outOfBoundsKill", true);
@@ -59,9 +70,17 @@ var StateMain={
         // Mondo
         this.mondo = game.add.sprite(0,this.background.y + 250,"mondo");
         this.mondo.scale.setTo(0.8, 0.8);
-        this.mondo.fixedToCamera = true;
+       // this.mondo.fixedToCamera = true;
         game.physics.enable(this.mondo, Phaser.Physics.ARCADE);
         this.mondo.enableBody = true;
+
+        // // jump?
+        this.mondo.body.collideWorldBounds = true;
+        this.mondo.body.bounce.y = 0.8;
+        this.mondo.body.gravity.y = 0;
+
+
+
 
         // Buttons
         this.phoneLeft = game.add.button(100, this.background.y + 440, "playBtn", this.buttonWalkLeft, this, 0);
@@ -73,7 +92,7 @@ var StateMain={
         this.phoneBop = game.add.button(200, this.background.y + 440, "playBtn", this.bellyBopForPhone, this, 2);
         this.phoneBop.scale.setTo(0.15, 0.15);
 
-        this.phoneJump = game.add.button(300, this.background.y + 440, "playBtn", this.jump, this, 3);
+        this.phoneJump = game.add.button(300, this.background.y + 440, "playBtn", this.mondoPhoneJump, this, 3);
         this.phoneJump.scale.setTo(0.15, 0.15);
 
         // Text for vegence score
@@ -95,13 +114,13 @@ var StateMain={
         this.setMondoAnimations();
         this.mondoVengePoints(this.mondoVengence);
         this.launchMouse();
+        this.launchCandy();
 	},
     update: function() {
         this.mondo.body.velocity.setTo(0,0);
         if(!this.eating) this.mondo.animations.play('walk');
-        console.log(walkingRight);
         if (!this.eating && cursors.left.isDown || walkingLeft) {
-        //    this.walkingRight = false;
+            walkingRight = false;
         //    this.mondo.animations.play('walk');
             this.background.tilePosition.x += 1;
             this.mondo.body.velocity.x = -10;
@@ -109,12 +128,12 @@ var StateMain={
         }
         if(!this.eating && cursors.right.isDown || walkingRight) {
             this.background.tilePosition.x -= 1;
-        //    this.walkingLeft = false;
+            this.walkingLeft = false;
         //    this.mondo.animations.play('walk');
             this.mondo.body.velocity.x = 10;
             game.camera.x += 1;
         }
-        if(!this.eating && cursors.up.isDown || !this.eating && bellyBopPhone) {
+        if(!this.eating && cursors.down.isDown || !this.eating && bellyBopPhone) {
         //    if (this.mondo.x <= this.mouse.x) {
         //        if (this.mouse.x < (this.mondo.x) + 250) {
         //            this.mondo.animations.stop('walk');
@@ -132,29 +151,14 @@ var StateMain={
             this.launchMouse();
         }
 
-        
-        
-        //}
-        //if (this.mouse1dead == true) {
-        //    this.mouse.animations.stop('walk');
-        //}
-        //if(cursors.up.isUp) {
-        //    this.walkMouse();
-        //}
-        //if (gobbleDog.isDown) {
-        //    this.mondo.animations.play('eatDog');
-        //    this.mondoVengePoints(25);
-        //    this.textScore.text=mondoVengence;
-        //    console.log("mondo vengence is now:", mondoVengence);
-//
-        //}
-        //if (gobbleMouse.isDown && this.mouse1dead) {
-        //    this.mondo.animations.play('eatMouse');
-        //    this.mouse.kill();
-        //    this.mondoVengePoints(1);
-        //    this.textScore.text=mondoVengence;
-        //    console.log("mondo vengence is now:", mondoVengence);
-        //}
+        if (!this.eating && cursors.up.isDown) {
+            this.mondoJump();
+        }
+
+        if (cursors.up.isUp) {
+            this.mondo.body.velocity.y = 500;
+        }
+
     },
     setListeners:function() {
         if (screen.width < 1500) {
@@ -176,6 +180,9 @@ var StateMain={
         
         eatM.onComplete.add(this.eatComplete, this);
         eatD.onComplete.add(this.eatComplete, this);
+    },
+    setFoodAnimations: function(food) {
+        food.animations.add('float', [0, 1, 2, 3], 2, true);
     },
     buttonWalkRight: function() {
         walkingRight = true;
@@ -206,6 +213,14 @@ var StateMain={
         mondoVengence += points;
         this.textScore.text=mondoVengence;
     },
+    mondoJump: function() {
+        console.log("in jump!");
+        this.mondo.body.velocity.y = -4000;
+    },
+    mondoPhoneJump: function() {
+        console.log("in jump!");
+        this.mondo.body.velocity.y = -16000;
+    },
     launchMouse: function(){
         var mouse = this.mice.getAt(this.enemyIndex);
         if(mouse !== -1){
@@ -215,14 +230,24 @@ var StateMain={
         this.enemyIndex++;
         this.launchTimer = game.time.now + Phaser.Timer.SECOND * 5;
     },
+    launchCandy: function() {
+        var food = this.foodie.getAt(this.FoodIndex);
+        if (food !== -1) {
+            food.play('float');
+            food.body.velocity.x = -20;
+        }
+    },
     collisionHandler: function(mondo, enemy){
         this.eating = true;
         if (enemy.key == "mouse") {
             mondo.play('eatMouse');
             this.mondoVengePoints(1);
-        } else {
+        } else if (enemy.key == "chihuahua") {
             mondo.play('eatDog');
             this.mondoVengePoints(10);
+        } else if (enemy.key == "food") {
+            this.mondoVengencePoints(2);
+            enemy.kill();
         }
         enemy.play('flip');
         enemy.body.velocity.x = 50;
@@ -233,27 +258,10 @@ var StateMain={
     flipComplete: function(sprite, animation){
         sprite.kill();
     },
-    //walkMondoLeft: function() {
-    //    this.walkingLeft = true;
-    //    this.walkingRight = false;
-    //},
-    //walkMondoRight: function() {
-    //    this.walkingRight = true;
-    //    this.walkingLeft = false;
-    //},
     bellyBopForPhone: function() {
        bellyBopPhone = true;
     },
-    //jump: function() {
-    //    console.log("mondo jump!");
-    //},
-    //walkMouse: function(){
-    //    if (!this.mouse1dead) {
-    //        
-    //        this.mouse.x -= 1;
-    //        this.mouse.animations.play('walk');
-    //    }
-    //}
+
 }
 
 
