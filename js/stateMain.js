@@ -1,15 +1,15 @@
 var cursors;
-var gobbleDog;
-var gobbleMouse;
-var mouse1dead;
 var walkingLeft;
+var bellyBopPhone;
 var walkingRight;
 var mouse;
 
 var StateMain={
     init: function() {
-        this.game.physics.startSystem(Phaser.Physics.ARCADE);
-        mondoVengence = 0;
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+        this.mondoVengeance = 0;
+        this.enemyIndex = 0;
+        this.FoodIndex = 0;
     },
 	preload: function() {
      	if (screen.width < 1500) {
@@ -18,13 +18,13 @@ var StateMain={
     	game.load.image("background", "images/background1.png");
     	game.load.spritesheet("mondo", "images/mondo.png", 320, 265, 8);
         game.load.spritesheet("playBtn", "images/playBtns.png", 624, 290, 4);
-    	game.load.spritesheet("mouse", "images/mouse.png", 171, 160, 8);
-    	game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 162, 8);
-        game.load.spritesheet("deadDog", "images/deadDog.png", 496, 424, 1);
-        game.load.spritesheet("deadMouse", "images/deadMouse.png", 602, 224, 1);
+    	game.load.spritesheet("mouse", "images/mouse.png", 168, 170, 8);
+    	game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 130, 8);
+        game.load.spritesheet("food", "images/food.png", 67, 78, 8);
+        game.load.audio("lipSmack", "sounds/SmackLips.mp3");
 	},
 	create: function() {
-        //background
+        // Background
         this.background = game.add.tileSprite(0, game.height-480, game.width, 480, 'background');
         // ipad fix:
         if (screen.height >=764) {
@@ -32,225 +32,225 @@ var StateMain={
             this.top=this.background.y;
             this.bottom = this.background.y+360;
         }
-        
-        this.mondo = game.add.sprite(0,this.background.y + 250,"mondo");
-        this.mondo.scale.setTo(0.8,0.8);
-        //this.mondo.scale.x = 0.5;
-        this.mondo.fixedToCamera = true;
-        game.physics.arcade.enable(this.mondo);
 
-        //this.mouse = game.add.sprite(600,this.background.y+300,"mouse");
-        
-        group = game.add.physicsGroup();
+        // Enemies
+        this.enemies = game.add.group();
+        this.enemies.enableBody = true;
+        this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
         for (var i = 0; i < 10; i++) {
-            var c = group.create(game.rnd.between(0, game.width), this.background.y+300, 'mouse');
+            if (i % 3 == 0) {
+                var dog = this.enemies.create(game.width, this.background.y+300, "chihuahua");
+                this.setDogAnimations(dog);
+            } else {
+                var mouse = this.enemies.create(game.width, this.background.y+300, 'mouse');
+                this.setMouseAnimations(mouse);
+            }
         }
-       //  this.mice = game.add.group();
-       //  this.mice.createMultiple(5, 'mouse');
-       //  this.mice.setAll('anochor.x', 600);
-       //  this.mice.setAll('anchor.y', this.background.y+300);
-       //  for (var i = 0, len = this.mice.children.length; i < len; i++) {
 
-       //      this.mouse = this.mice.children[i];
-       //      this.mouse.x = 600;
-       //      this.mouse.y = this.background.y+300;
-       //      console.log(this.mice.children[i]);
-       //  }
-       //  //game.time.events.repeat(Phaser.Timer.SECOND, 20, this.launchMice, this);
-       //  // this.mice.setAll('anochor.x', 600);
-       //  // this.mice.setAll('anchor.y', this.background.y+300);
-       //  // this.mice.setAll("checkWorldBounds", true);
-       //  // this.mice.setAll("outOfBoundsKill", true);
-       // // this.launchMice();
+        // Food
+        this.foodie = game.add.group();
+        this.foodie.enableBody = true;
+        this.foodie.physicsBodyType = Phaser.Physics.ARCADE;
+        for (var i = 0; i < 3; i++) {
+            var food = this.foodie.create(game.width, this.background.y+100, 'food');
+            this.setFoodAnimations(food);
+        }
 
-        // buttons
-        this.phoneLeft = game.add.button(100, this.background.y + 440, "playBtn", this.walkMondoLeft, this, 0);
-        this.phoneRight = game.add.button(400, this.background.y + 440, "playBtn", this.walkMondoRight, this, 1);
-        this.phoneBop = game.add.button(200, this.background.y + 440, "playBtn", this.bellyBopPhone, this, 2);
-        this.phoneJump = game.add.button(300, this.background.y + 440, "playBtn", this.jump, this, 3);
+        mondoVengeance = 0;
 
+        //sound
+        this.lipSmack = game.add.audio("lipSmack");
+
+        this.enemies.setAll("outOfBoundsKill", true);
+        this.enemies.setAll('checkWorldBounds', true);
+        this.foodie.setAll("outOfBoundsKill", true);
+        this.foodie.setAll('checkWorldBounds', true);
+       
+        // Mondo
+        this.mondo = game.add.sprite(0,this.background.y + 250,"mondo");
+        this.mondo.scale.setTo(0.8, 0.8);
+        game.physics.enable(this.mondo, Phaser.Physics.ARCADE);
+        this.mondo.enableBody = true;
+        this.mondo.body.collideWorldBounds = true;
+        this.mondo.body.bounce.y = 0.8;
+        this.mondo.body.gravity.y = 0;
+
+        // Buttons
+        this.phoneLeft = game.add.button(100, this.background.y + 440, "playBtn", this.buttonWalkLeft, this, 0);
         this.phoneLeft.scale.setTo(0.15, 0.15);
+
+        this.phoneRight = game.add.button(400, this.background.y + 440, "playBtn", this.buttonWalkRight, this, 1);
         this.phoneRight.scale.setTo(0.15, 0.15);
+
+        this.phoneBop = game.add.button(200, this.background.y + 440, "playBtn", this.bellyBopForPhone, this, 2);
         this.phoneBop.scale.setTo(0.15, 0.15);
+
+        this.phoneJump = game.add.button(300, this.background.y + 440, "playBtn", this.mondoPhoneJump, this, 3);
         this.phoneJump.scale.setTo(0.15, 0.15);
 
-        //text for vegence score
+        // Text for vegence score
         this.textScore = game.add.text(game.world.centerX, this.top+60, "0");
         this.textScore.fill="000000";
         this.textScore.font= "VT323";
         this.textScore.fontSize=40;
         this.textScore.anchor.set(0.5,0.5);
 
-        // label for vengence score
-        this.labelScore = game.add.text(game.world.centerX, this.top+20, "vengence points:");
+        // Label for vengence score
+        this.labelScore = game.add.text(game.world.centerX, this.top+20, "vengeance points:");
         this.labelScore.fill="000000";
         this.labelScore.font= "VT323";
         this.labelScore.fontSize=40;
         this.labelScore.anchor.set(0.5,0.5);
 
+        // Initializers
         this.setListeners();
-        this.walkMondo();
-        this.walkMouse();
-        this.flipMouse();
-        this.bellyBop();
-        this.mondoEatDog();
-        this.mondoEatMouse();
-        this.mondoVengePoints();
+        this.setMondoAnimations();
+        this.mondoVengePoints(this.mondoVengence);
+        this.launchEnemies();
+        this.launchFood();
 
 	},
+
+    update: function() {
+        this.mondo.body.velocity.setTo(0,0);
+        if(!this.eating) this.mondo.animations.play('walk');
+        if (!this.eating && cursors.left.isDown || walkingLeft) {
+            walkingRight = false;
+            this.background.tilePosition.x += 1;
+            this.mondo.body.velocity.x = -10;
+            game.camera.x -= 1;
+        }
+        if(!this.eating && cursors.right.isDown || walkingRight) {
+            this.background.tilePosition.x -= 1;
+            this.walkingLeft = false;
+            this.mondo.body.velocity.x = 10;
+            game.camera.x += 1;
+        }
+        if(!this.eating && cursors.down.isDown || !this.eating && bellyBopPhone) {
+            this.mondo.animations.play('belly');
+            game.physics.arcade.overlap(this.mondo, this.enemies, this.collisionHandler, null, this);
+            bellyBopPhone = false;
+        }
+
+        if(game.time.now > this.launchTimer){
+            this.launchEnemies();
+        }
+
+        if(game.time.now > this.launchFoodTimer){
+            this.launchFood();
+        }
+
+        if (!this.eating && cursors.up.isDown) {
+            this.mondoJump();
+        }
+
+        if (cursors.up.isUp) {
+            this.mondo.body.velocity.y = 500;
+        }
+
+    },
     setListeners:function() {
         if (screen.width < 1500) {
             game.scale.enterIncorrectOrientation.add(this.wrongWay,this);
             game.scale.leaveIncorrectOrientation.add(this.rightWay,this);
         }
-        //game.time.events.loop(Phaser.Timer.SECOND*this.delay, this.launchMice, this);
+        
         cursors = game.input.keyboard.createCursorKeys();
-        gobbleMouse = game.input.keyboard.addKey(Phaser.Keyboard.M);
-        gobbleDog = game.input.keyboard.addKey(Phaser.Keyboard.D);
     },
-    // launchMice: function() {
-    //     var MIN_ENEMY_SPACING = 300;
-    //     var MAX_ENEMY_SPACING = 3000;
-    //     //var ENEMY_SPEED = 300;
-
-    //     this.mouse = this.mice.getFirstDead(false);
-
-    //     if (this.mouse) {
-    //     //  And bring it back to life
-    //         mice.reset(game.world.randomX, game.world.randomY);
-    //     //  This just changes its frame
-    //         mice.frame = game.rnd.integerInRange(0, 36);
-    //     }
-    //     this.mouse.x = 600;
-    //     this.mouse.y = this.background.y+300;
-    //    //  this.walkMouse();
-    //    //  console.log(this.mouse);
-    //    //  console.log(this.mouse.x);
-    //    //  console.log(this.mouse.y);
-    //    //  console.log(this.mouse.sprite);
-    //    //  // if (mouse) {
-    //    //  //     enemy.reset(game.rnd.integerInRange(0, game.width), -20);
-    //    //  //     enemy.body.velocity.x = game.rnd.integerInRange(-300, 300);
-    //    //  //     enemy.body.velocity.y = ENEMY_SPEED;
-    //    //  //     enemy.body.drag.x = 100;
-    //    //  // }
-
-    //    //  //  Send another enemy soon
-    //    // //game.time.events.add(game.rnd.integerInRange(MIN_ENEMY_SPACING, MAX_ENEMY_SPACING), this.launchMice);
-    
-
-
-
-
-    // },
-    mondoEatDog: function() {
+    setMondoAnimations: function() {
         this.mondo.animations.add('eatDog', [3, 4, 4, 4, 1], 2, false);
-    },
-    mondoEatMouse: function() {
-        this.mondo.animations.add('eatMouse', [2, 5, 5, 5, 2], 2, false);
-    },
-    walkMondoLeft: function() {
-        this.walkingLeft = true;
-        this.walkingRight = false;
-    },
-    walkMondoRight: function() {
-        this.walkingRight = true;
-        this.walkingLeft = false;
-    },
-    walkMondo: function() {
+        var eatM = this.mondo.animations.add('eatMouse', [2, 5, 5, 5, 2], 2, false);
+        var eatD = this.mondo.animations.add('eatDog', [2, 4, 4, 4, 2], 2, false);
         this.mondo.animations.add('walk', [0, 1], 2, true);
-        this.mondo.animations.play('walk');
+        this.mondo.animations.add('belly', [6], 6, false);
+        
+        eatM.onComplete.add(this.eatComplete, this);
+        eatD.onComplete.add(this.eatComplete, this);
     },
-    bellyBop: function(torf) {
-        this.mondo.animations.add('belly', [6], 6, true);
+    setFoodAnimations: function(food) {
+        food.animations.add('float', [0, 1, 2, 3], 2, true);
     },
-    bellyBopPhone: function() {
-        if (this.mondo.x <= this.mouse.x) {
-            if (this.mouse.x < (this.mondo.x) + 250) {
-                this.mondo.animations.stop('walk');
-                this.mouse.animations.stop('walk');
-                this.mondo.animations.play('belly');
-                this.mouse.animations.play('flip');
-                this.mouse.x += 5;
-                this.mouse1dead = true;
-            }
-        }
+    buttonWalkRight: function() {
+        walkingRight = true;
+        walkingLeft = false;
     },
-    jump: function() {
-        console.log("mondo jump!");
+    buttonWalkLeft: function() {
+        walkingLeft = true;
+        walkingRight = false;
     },
-    walkMouse: function(){
-        if (!this.mouse1dead) {
-            this.mouse.animations.add('walk', [0], 12, false);
-            this.mouse.x -= 1;
-            this.mouse.animations.play('walk');
-        }
+    setMouseAnimations: function(mouse) {
+        mouse.animations.add('walk', [0, 0, 0, 4], 2, true);
+        var flip = mouse.animations.add('flip', [0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8], 12, false);
+        flip.onComplete.add(this.flipComplete, this);
     },
-    flipMouse: function() {
-        this.mouse.animations.add('flip', [0,1,2,3, 0, 1, 2, 3, 4, 5, 6, 7, 8], 12, false);
-    },
-    wrongWay:function() {
-        document.getElementById("wrongWay").style.display="block";
-    },
-    rightWay:function() {
-        document.getElementById("wrongWay").style.display="none";
+    setDogAnimations: function(dog) {
+        dog.animations.add('walk', [0, 0, 0, 0, 0, 0, 0, 4], 2, true);
+        var flip = dog.animations.add('flip', [0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8], 12, false);
+        flip.onComplete.add(this.flipComplete, this);
     },
     mondoVengePoints: function(points) {
         points = points || 0;
-        mondoVengence += points;
+        mondoVengeance += points;
+        this.textScore.text=mondoVengeance;
     },
-	update: function() {
-        if (cursors.left.isDown || this.walkingLeft) {
-            this.walkingRight = false;
-            this.mondo.animations.play('walk');
-            this.background.tilePosition.x += 1;
-            this.mondo.x -= 1;
-            game.camera.x -= 1;
+    mondoJump: function() {
+        this.mondo.body.velocity.y = -4000;
+         game.physics.arcade.overlap(this.mondo, this.foodie, this.collisionFood, null, this);
+    },
+    mondoPhoneJump: function() {
+        this.mondo.body.velocity.y = -8000;
+        game.physics.arcade.overlap(this.mondo, this.foodie, this.collisionFood, null, this);
+    },
+    launchEnemies: function(){
+        var enemy = this.enemies.getAt(this.enemyIndex);
+        if(enemy !== -1){
+            enemy.play('walk');
+            enemy.body.velocity.x = -50;
         }
-        if(cursors.right.isDown || this.walkingRight) {
-            this.background.tilePosition.x -= 1;
-            this.walkingLeft = false;
-            this.mondo.animations.play('walk');
-            this.mondo.x += 1;
-            game.camera.x += 1;
+        this.enemyIndex++;
+        this.launchTimer = game.time.now + Phaser.Timer.SECOND * 5;
+        if(enemy == -1) {
+            game.state.start("FallState");
         }
-        if (cursors.up.isDown) {
-            if (this.mondo.x <= this.mouse.x) {
-                if (this.mouse.x < (this.mondo.x) + 250) {
-                    this.mondo.animations.stop('walk');
-                    this.mouse.animations.stop('walk');
-                    this.mondo.animations.play('belly');
-                    this.mouse.animations.play('flip');
-                    this.mouse.x += 5;
-                    this.mouse1dead = true;
-                }
-            }
+    },
+    launchFood: function() {
+        var food = this.foodie.getAt(this.FoodIndex);
+        if (food !== -1) {
+            food.play('float');
+            food.body.velocity.x = -20;
         }
-        if (this.mouse1dead == true) {
-            this.mouse.animations.stop('walk');
-        }
-        if(cursors.up.isUp) {
-            this.walkMouse();
-        }
-        if (gobbleDog.isDown) {
-            this.mondo.animations.play('eatDog');
-            this.mondoVengePoints(25);
-            this.textScore.text=mondoVengence;
-            console.log("mondo vengence is now:", mondoVengence);
-
-        }
-        if (gobbleMouse.isDown && this.mouse1dead) {
-            this.mondo.animations.play('eatMouse');
-            this.mouse.kill();
+        this.FoodIndex++;
+        this.launchFoodTimer = game.time.now + Phaser.Timer.SECOND * 20;
+    },
+    collisionHandler: function(mondo, enemy){
+        this.eating = true;
+        if (enemy.key == "mouse") {
+            mondo.play('eatMouse');
             this.mondoVengePoints(1);
-            this.textScore.text=mondoVengence;
-            console.log("mondo vengence is now:", mondoVengence);
+            this.lipSmack.play();
+        } else if (enemy.key == "chihuahua") {
+            mondo.play('eatDog');
+            this.mondoVengePoints(10);
+            this.lipSmack.play();
         }
-	}
+        enemy.play('flip');
+        enemy.body.velocity.x = 50;
+    },
+    collisionFood: function(mondo, food) {
+        this.mondoVengePoints(2);
+        food.kill();
+        this.lipSmack.play();
+    },
+    eatComplete: function(sprite, animation){
+        this.eating = false;
+    },
+    flipComplete: function(sprite, animation){
+        sprite.kill();
+    },
+    bellyBopForPhone: function() {
+       bellyBopPhone = true;
+    },
 }
-
-
-
 
 
 
