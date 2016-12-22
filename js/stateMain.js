@@ -1,6 +1,12 @@
 var cursors;
 var gobbleDog;
 var gobbleMouse;
+var mouse1dead;
+var walkingLeft;
+var walkingRight;
+var mouse;
+//var mice;
+
 var StateMain={
     init: function() {
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -13,8 +19,8 @@ var StateMain={
     	game.load.image("background", "images/background1.png");
     	game.load.spritesheet("mondo", "images/mondo.png", 320, 265, 8);
         game.load.spritesheet("playBtn", "images/playBtns.png", 624, 290, 4);
-    	game.load.spritesheet("mouse", "images/mouse.png", 166, 170, 4);
-    	game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 137, 4);
+    	game.load.spritesheet("mouse", "images/mouse.png", 171, 160, 8);
+    	game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 162, 8);
         game.load.spritesheet("deadDog", "images/deadDog.png", 496, 424, 1);
         game.load.spritesheet("deadMouse", "images/deadMouse.png", 602, 224, 1);
 	},
@@ -31,18 +37,35 @@ var StateMain={
         this.mondo = game.add.sprite(0,this.background.y + 250,"mondo");
         this.mondo.scale.setTo(0.8,0.8);
         //this.mondo.scale.x = 0.5;
-        this.deadMouse = game.add.sprite(this.background.x-450, this.background.y-415, "deadMouse");
-        this.deadMouse.scale.setTo(0.2, 0.2);
+        this.mondo.fixedToCamera = true;
+
         this.mouse = game.add.sprite(600,this.background.y+300,"mouse");
-        
+       //  this.mice = game.add.group();
+       //  this.mice.createMultiple(5, 'mouse');
+       //  this.mice.setAll('anochor.x', 600);
+       //  this.mice.setAll('anchor.y', this.background.y+300);
+       //  for (var i = 0, len = this.mice.children.length; i < len; i++) {
+
+       //      this.mouse = this.mice.children[i];
+       //      this.mouse.x = 600;
+       //      this.mouse.y = this.background.y+300;
+       //      console.log(this.mice.children[i]);
+       //  }
+       //  //game.time.events.repeat(Phaser.Timer.SECOND, 20, this.launchMice, this);
+       //  // this.mice.setAll('anochor.x', 600);
+       //  // this.mice.setAll('anchor.y', this.background.y+300);
+       //  // this.mice.setAll("checkWorldBounds", true);
+       //  // this.mice.setAll("outOfBoundsKill", true);
+       // // this.launchMice();
+
         // buttons
-        // this.phoneLeft = game.add.button(100, this.background.y + 440, "playBtn", this, 0);
-        // this.phoneRight = game.add.button(400, this.background.y + 440, "playBtn", this, 1);
-        this.phoneBop = game.add.button(200, this.background.y + 440, "playBtn", this.bellyBop, this, 2);
+        this.phoneLeft = game.add.button(100, this.background.y + 440, "playBtn", this.walkMondoLeft, this, 0);
+        this.phoneRight = game.add.button(400, this.background.y + 440, "playBtn", this.walkMondoRight, this, 1);
+        this.phoneBop = game.add.button(200, this.background.y + 440, "playBtn", this.bellyBopPhone, this, 2);
         this.phoneJump = game.add.button(300, this.background.y + 440, "playBtn", this.jump, this, 3);
 
-        //this.phoneLeft.scale.setTo(0.15, 0.15);
-        //this.phoneRight.scale.setTo(0.15, 0.15);
+        this.phoneLeft.scale.setTo(0.15, 0.15);
+        this.phoneRight.scale.setTo(0.15, 0.15);
         this.phoneBop.scale.setTo(0.15, 0.15);
         this.phoneJump.scale.setTo(0.15, 0.15);
 
@@ -68,39 +91,98 @@ var StateMain={
         this.mondoEatDog();
         this.mondoEatMouse();
         this.mondoVengePoints();
+
 	},
     setListeners:function() {
         if (screen.width < 1500) {
             game.scale.enterIncorrectOrientation.add(this.wrongWay,this);
             game.scale.leaveIncorrectOrientation.add(this.rightWay,this);
         }
+        //game.time.events.loop(Phaser.Timer.SECOND*this.delay, this.launchMice, this);
         cursors = game.input.keyboard.createCursorKeys();
         gobbleMouse = game.input.keyboard.addKey(Phaser.Keyboard.M);
         gobbleDog = game.input.keyboard.addKey(Phaser.Keyboard.D);
     },
+    // launchMice: function() {
+    //     var MIN_ENEMY_SPACING = 300;
+    //     var MAX_ENEMY_SPACING = 3000;
+    //     //var ENEMY_SPEED = 300;
+
+    //     this.mouse = this.mice.getFirstDead(false);
+
+    //     if (this.mouse) {
+    //     //  And bring it back to life
+    //         mice.reset(game.world.randomX, game.world.randomY);
+    //     //  This just changes its frame
+    //         mice.frame = game.rnd.integerInRange(0, 36);
+    //     }
+    //     this.mouse.x = 600;
+    //     this.mouse.y = this.background.y+300;
+    //    //  this.walkMouse();
+    //    //  console.log(this.mouse);
+    //    //  console.log(this.mouse.x);
+    //    //  console.log(this.mouse.y);
+    //    //  console.log(this.mouse.sprite);
+    //    //  // if (mouse) {
+    //    //  //     enemy.reset(game.rnd.integerInRange(0, game.width), -20);
+    //    //  //     enemy.body.velocity.x = game.rnd.integerInRange(-300, 300);
+    //    //  //     enemy.body.velocity.y = ENEMY_SPEED;
+    //    //  //     enemy.body.drag.x = 100;
+    //    //  // }
+
+    //    //  //  Send another enemy soon
+    //    // //game.time.events.add(game.rnd.integerInRange(MIN_ENEMY_SPACING, MAX_ENEMY_SPACING), this.launchMice);
+    
+
+
+
+
+    // },
     mondoEatDog: function() {
         this.mondo.animations.add('eatDog', [3, 4, 4, 4, 1], 2, false);
     },
     mondoEatMouse: function() {
         this.mondo.animations.add('eatMouse', [2, 5, 5, 5, 2], 2, false);
     },
-    walkMondo: function(){
+    walkMondoLeft: function() {
+        this.walkingLeft = true;
+        this.walkingRight = false;
+    },
+    walkMondoRight: function() {
+        this.walkingRight = true;
+        this.walkingLeft = false;
+    },
+    walkMondo: function() {
         this.mondo.animations.add('walk', [0, 1], 2, true);
         this.mondo.animations.play('walk');
     },
-    bellyBop: function() {
+    bellyBop: function(torf) {
         this.mondo.animations.add('belly', [6], 6, true);
+    },
+    bellyBopPhone: function() {
+        if (this.mondo.x <= this.mouse.x) {
+            if (this.mouse.x < (this.mondo.x) + 250) {
+                this.mondo.animations.stop('walk');
+                this.mouse.animations.stop('walk');
+                this.mondo.animations.play('belly');
+                this.mouse.animations.play('flip');
+                this.mouse.x += 5;
+                this.mouse1dead = true;
+            }
+        }
     },
     jump: function() {
         console.log("mondo jump!");
     },
     walkMouse: function(){
-        this.mouse.animations.add('walk', [0], 12, false);
-        this.mouse.x -= 1;
-        this.mouse.animations.play('walk');
+        if (!this.mouse1dead) {
+            this.mouse.animations.add('walk', [0], 12, false);
+            this.mouse.x -= 1;
+            this.mouse.animations.play('walk');
+        }
     },
     flipMouse: function() {
-        this.mouse.animations.add('flip', [0,1,2,3], 12, true);
+        this.mouse.animations.add('flip', [0,1,2,3, 0, 1, 2, 3, 4, 5, 6, 7, 8], 12, false);
     },
     wrongWay:function() {
         document.getElementById("wrongWay").style.display="block";
@@ -113,23 +195,34 @@ var StateMain={
         mondoVengence += points;
     },
 	update: function() {
-        if (cursors.left.isDown){
-             //move cat to the left
-             this.mondo.animations.play('walk');
-             this.mondo.x -= 1;
+        if (cursors.left.isDown || this.walkingLeft) {
+            this.walkingRight = false;
+            this.mondo.animations.play('walk');
+            this.background.tilePosition.x += 1;
+            this.mondo.x -= 1;
+            game.camera.x -= 1;
         }
-        if(cursors.right.isDown){
+        if(cursors.right.isDown || this.walkingRight) {
+            this.background.tilePosition.x -= 1;
+            this.walkingLeft = false;
             this.mondo.animations.play('walk');
             this.mondo.x += 1;
+            game.camera.x += 1;
         }
         if (cursors.up.isDown) {
-            this.mondo.animations.stop('walk');
+            if (this.mondo.x <= this.mouse.x) {
+                if (this.mouse.x < (this.mondo.x) + 250) {
+                    this.mondo.animations.stop('walk');
+                    this.mouse.animations.stop('walk');
+                    this.mondo.animations.play('belly');
+                    this.mouse.animations.play('flip');
+                    this.mouse.x += 5;
+                    this.mouse1dead = true;
+                }
+            }
+        }
+        if (this.mouse1dead == true) {
             this.mouse.animations.stop('walk');
-            this.mondo.animations.play('belly');
-            this.mouse.animations.play('flip');
-            this.mouse.x += 10;
-            this.deadMouse.x = this.background.x+450
-            this.deadMouse.y = this.background.y+415;
         }
         if(cursors.up.isUp) {
             this.walkMouse();
@@ -141,14 +234,14 @@ var StateMain={
             console.log("mondo vengence is now:", mondoVengence);
 
         }
-        if (gobbleMouse.isDown) {
+        if (gobbleMouse.isDown && this.mouse1dead) {
             this.mondo.animations.play('eatMouse');
-            this.deadMouse.kill();
-            this.mondoVengePoints(5);
+            this.mouse.kill();
+            this.mondoVengePoints(1);
             this.textScore.text=mondoVengence;
             console.log("mondo vengence is now:", mondoVengence);
         }
-	},
+	}
 }
 
 
