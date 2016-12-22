@@ -20,7 +20,7 @@ var StateMain={
     	game.load.spritesheet("mondo", "images/mondo.png", 320, 265, 8);
         game.load.spritesheet("playBtn", "images/playBtns.png", 624, 290, 4);
     	game.load.spritesheet("mouse", "images/mouse.png", 171, 160, 8);
-    	game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 137, 4);
+    	game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 162, 8);
         game.load.spritesheet("deadDog", "images/deadDog.png", 496, 424, 1);
         game.load.spritesheet("deadMouse", "images/deadMouse.png", 602, 224, 1);
     	
