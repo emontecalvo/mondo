@@ -65,6 +65,8 @@ var StateMain={
 
         this.mice.setAll("outOfBoundsKill", true);
         this.mice.setAll('checkWorldBounds', true);
+        this.foodie.setAll("outOfBoundsKill", true);
+        this.foodie.setAll('checkWorldBounds', true);
        
 
         // Mondo
@@ -114,7 +116,7 @@ var StateMain={
         this.setMondoAnimations();
         this.mondoVengePoints(this.mondoVengence);
         this.launchMouse();
-        this.launchCandy();
+        this.launchFood();
 	},
     update: function() {
         this.mondo.body.velocity.setTo(0,0);
@@ -151,8 +153,14 @@ var StateMain={
             this.launchMouse();
         }
 
+        if(game.time.now > this.launchFoodTimer){
+            this.launchFood();
+        }
+
         if (!this.eating && cursors.up.isDown) {
             this.mondoJump();
+            // game.physics.arcade.overlap(this.mondo, this.foodie, this.collisionFood, null, this);
+            console.log("walk?");
         }
 
         if (cursors.up.isUp) {
@@ -216,10 +224,12 @@ var StateMain={
     mondoJump: function() {
         console.log("in jump!");
         this.mondo.body.velocity.y = -4000;
+         game.physics.arcade.overlap(this.mondo, this.foodie, this.collisionFood, null, this);
     },
     mondoPhoneJump: function() {
         console.log("in jump!");
-        this.mondo.body.velocity.y = -16000;
+        this.mondo.body.velocity.y = -8000;
+        game.physics.arcade.overlap(this.mondo, this.foodie, this.collisionFood, null, this);
     },
     launchMouse: function(){
         var mouse = this.mice.getAt(this.enemyIndex);
@@ -230,12 +240,14 @@ var StateMain={
         this.enemyIndex++;
         this.launchTimer = game.time.now + Phaser.Timer.SECOND * 5;
     },
-    launchCandy: function() {
+    launchFood: function() {
         var food = this.foodie.getAt(this.FoodIndex);
         if (food !== -1) {
             food.play('float');
             food.body.velocity.x = -20;
         }
+        this.FoodIndex++;
+        this.launchFoodTimer = game.time.now + Phaser.Timer.SECOND * 20;
     },
     collisionHandler: function(mondo, enemy){
         this.eating = true;
@@ -245,12 +257,17 @@ var StateMain={
         } else if (enemy.key == "chihuahua") {
             mondo.play('eatDog');
             this.mondoVengePoints(10);
-        } else if (enemy.key == "food") {
-            this.mondoVengencePoints(2);
-            enemy.kill();
         }
+        // } else if (enemy.key == "food") {
+        //     this.mondoVengePoints(2);
+        //     enemy.kill();
+        // }
         enemy.play('flip');
         enemy.body.velocity.x = 50;
+    },
+    collisionFood: function(mondo, food) {
+        this.mondoVengePoints(2);
+        food.kill();
     },
     eatComplete: function(sprite, animation){
         this.eating = false;
