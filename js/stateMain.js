@@ -5,7 +5,6 @@ var mouse1dead;
 var walkingLeft;
 var walkingRight;
 var mouse;
-//var mice;
 
 var StateMain={
     init: function() {
