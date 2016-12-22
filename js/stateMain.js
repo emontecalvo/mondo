@@ -38,8 +38,14 @@ var StateMain={
         this.mondo.scale.setTo(0.8,0.8);
         //this.mondo.scale.x = 0.5;
         this.mondo.fixedToCamera = true;
+        game.physics.arcade.enable(this.mondo);
 
-        this.mouse = game.add.sprite(600,this.background.y+300,"mouse");
+        //this.mouse = game.add.sprite(600,this.background.y+300,"mouse");
+        
+        group = game.add.physicsGroup();
+        for (var i = 0; i < 10; i++) {
+            var c = group.create(game.rnd.between(0, game.width), this.background.y+300, 'mouse');
+        }
        //  this.mice = game.add.group();
        //  this.mice.createMultiple(5, 'mouse');
        //  this.mice.setAll('anochor.x', 600);
