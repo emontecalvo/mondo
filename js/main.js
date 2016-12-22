@@ -13,10 +13,11 @@ window.onload = function()
 		// mobile device
 		game=new Phaser.Game(window.innerWidth,window.innerHeight,Phaser.AUTO,"ph_game");		
 	}
-    game.state.add("StateMain",StateMain);
+//    game.state.add("StateMain",StateMain);
     game.state.add("StateHome",StateHome);
     game.state.add("StateInstructions",StateInstructions);
     game.state.add("StateInstructions2",StateInstructions2);
+    game.state.add("StateMain",StateMain);
     game.state.add("FallState", FallState);
     game.state.add("BeachState", BeachState);
     game.state.add("StateOver", StateOver);

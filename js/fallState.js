@@ -21,8 +21,7 @@ var FallState={
     	game.load.spritesheet("mouse", "images/mouse.png", 168, 170, 8);
     	game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 130, 8);
         game.load.spritesheet("food", "images/food.png", 67, 78, 8);
-        game.load.spritesheet("deadDog", "images/deadDog.png", 496, 424, 1);
-        game.load.spritesheet("deadMouse", "images/deadMouse.png", 602, 224, 1);
+        game.load.audio("lipSmack", "sounds/SmackLips.mp3");
 	},
 	create: function() {
         // Background
@@ -38,7 +37,7 @@ var FallState={
         this.enemies = game.add.group();
         this.enemies.enableBody = true;
         this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < 15; i++) {
             if (i % 3 == 0) {
                 var dog = this.enemies.create(game.width, this.background.y+300, "chihuahua");
                 this.setDogAnimations(dog);
@@ -99,6 +98,9 @@ var FallState={
         this.labelScore.font= "VT323";
         this.labelScore.fontSize=40;
         this.labelScore.anchor.set(0.5,0.5);
+
+        //sound
+        this.lipSmack = game.add.audio("lipSmack");
 
         // Initializers
         this.setListeners();
@@ -224,9 +226,11 @@ var FallState={
         if (enemy.key == "mouse") {
             mondo.play('eatMouse');
             this.mondoVengePoints(1);
+            this.lipSmack.play();
         } else if (enemy.key == "chihuahua") {
             mondo.play('eatDog');
             this.mondoVengePoints(10);
+            this.lipSmack.play();
         }
         enemy.play('flip');
         enemy.body.velocity.x = 50;
@@ -234,6 +238,7 @@ var FallState={
     collisionFood: function(mondo, food) {
         this.mondoVengePoints(2);
         food.kill();
+        this.lipSmack.play();
     },
     eatComplete: function(sprite, animation){
         this.eating = false;
