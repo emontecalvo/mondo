@@ -4,7 +4,7 @@ var bellyBopPhone;
 var walkingRight;
 var mouse;
 
-var StateMain={
+var FallState={
     init: function() {
         game.physics.startSystem(Phaser.Physics.ARCADE);
         this.mondoVengence = 0;
@@ -15,7 +15,7 @@ var StateMain={
      	if (screen.width < 1500) {
      		game.scale.forceOrientation(true, false);
     	}
-    	game.load.image("background", "images/background1.png");
+    	game.load.image("background", "images/background2.png");
     	game.load.spritesheet("mondo", "images/mondo.png", 320, 265, 8);
         game.load.spritesheet("playBtn", "images/playBtns.png", 624, 290, 4);
     	game.load.spritesheet("mouse", "images/mouse.png", 168, 170, 8);
@@ -57,7 +57,7 @@ var StateMain={
             this.setFoodAnimations(food);
         }
 
-        mondoVengence = 0;
+        // mondoVengence = 0;
 
         this.enemies.setAll("outOfBoundsKill", true);
         this.enemies.setAll('checkWorldBounds', true);
@@ -87,7 +87,7 @@ var StateMain={
         this.phoneJump.scale.setTo(0.15, 0.15);
 
         // Text for vegence score
-        this.textScore = game.add.text(game.world.centerX, this.top+60, "0");
+        this.textScore = game.add.text(game.world.centerX, this.top+60, mondoVengence);
         this.textScore.fill="000000";
         this.textScore.font= "VT323";
         this.textScore.fontSize=40;
@@ -206,9 +206,6 @@ var StateMain={
         }
         this.enemyIndex++;
         this.launchTimer = game.time.now + Phaser.Timer.SECOND * 5;
-        if(enemy == -1) {
-            game.state.start("FallState");
-        }
     },
     launchFood: function() {
         var food = this.foodie.getAt(this.FoodIndex);
