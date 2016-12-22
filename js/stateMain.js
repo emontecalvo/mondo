@@ -23,7 +23,6 @@ var StateMain={
     	game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 162, 8);
         game.load.spritesheet("deadDog", "images/deadDog.png", 496, 424, 1);
         game.load.spritesheet("deadMouse", "images/deadMouse.png", 602, 224, 1);
-    	
 	},
 	create: function() {
         //background
@@ -39,9 +38,14 @@ var StateMain={
         this.mondo.scale.setTo(0.8,0.8);
         //this.mondo.scale.x = 0.5;
         this.mondo.fixedToCamera = true;
+        game.physics.arcade.enable(this.mondo);
 
-        this.mouse = game.add.sprite(600,this.background.y+300,"mouse");
-
+        //this.mouse = game.add.sprite(600,this.background.y+300,"mouse");
+        
+        group = game.add.physicsGroup();
+        for (var i = 0; i < 10; i++) {
+            var c = group.create(game.rnd.between(0, game.width), this.background.y+300, 'mouse');
+        }
        //  this.mice = game.add.group();
        //  this.mice.createMultiple(5, 'mouse');
        //  this.mice.setAll('anochor.x', 600);
@@ -71,13 +75,13 @@ var StateMain={
         this.phoneBop.scale.setTo(0.15, 0.15);
         this.phoneJump.scale.setTo(0.15, 0.15);
 
-
         //text for vegence score
         this.textScore = game.add.text(game.world.centerX, this.top+60, "0");
         this.textScore.fill="000000";
         this.textScore.font= "VT323";
         this.textScore.fontSize=40;
         this.textScore.anchor.set(0.5,0.5);
+
         // label for vengence score
         this.labelScore = game.add.text(game.world.centerX, this.top+20, "vengence points:");
         this.labelScore.fill="000000";
@@ -243,7 +247,7 @@ var StateMain={
             this.textScore.text=mondoVengence;
             console.log("mondo vengence is now:", mondoVengence);
         }
-	},
+	}
 }
 
 
