@@ -19,8 +19,8 @@ var StateMain={
     	game.load.image("background", "images/background1.png");
     	game.load.spritesheet("mondo", "images/mondo.png", 320, 265, 8);
         game.load.spritesheet("playBtn", "images/playBtns.png", 624, 290, 4);
-    	game.load.spritesheet("mouse", "images/mouse.png", 171, 160, 8);
-    	game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 162, 8);
+    	game.load.spritesheet("mouse", "images/mouse.png", 168, 170, 8);
+    	game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 130, 8);
         game.load.spritesheet("deadDog", "images/deadDog.png", 496, 424, 1);
         game.load.spritesheet("deadMouse", "images/deadMouse.png", 602, 224, 1);
 	},
@@ -38,12 +38,20 @@ var StateMain={
         this.mice = game.add.group();
         this.mice.enableBody = true;
         this.mice.physicsBodyType = Phaser.Physics.ARCADE;
-        for (var i = 0; i < 3; i++) {
-            var mouse = this.mice.create(game.width, this.background.y+300, 'mouse');
-            this.setMouseAnimations(mouse);
+        for (var i = 0; i < 8; i++) {
+            if (i % 3 == 0) {
+                var dog = this.mice.create(game.width, this.background.y+300, "chihuahua");
+                this.setDogAnimations(dog);
+                console.log(dog);
+            } else {
+                var mouse = this.mice.create(game.width, this.background.y+300, 'mouse');
+                this.setMouseAnimations(mouse);
+            }
+
         }
         this.mice.setAll("outOfBoundsKill", true);
         this.mice.setAll('checkWorldBounds', true);
+       
 
         // Mondo
         this.mondo = game.add.sprite(0,this.background.y + 250,"mondo");
@@ -157,14 +165,22 @@ var StateMain={
     },
     setMondoAnimations: function() {
         this.mondo.animations.add('eatDog', [3, 4, 4, 4, 1], 2, false);
-        var eat = this.mondo.animations.add('eatMouse', [2, 5, 5, 5, 2], 2, false);
+        var eatM = this.mondo.animations.add('eatMouse', [2, 5, 5, 5, 2], 2, false);
+        var eatD = this.mondo.animations.add('eatDog', [2, 4, 4, 4, 2], 2, false);
         this.mondo.animations.add('walk', [0, 1], 2, true);
         this.mondo.animations.add('belly', [6], 6, false);
-        eat.onComplete.add(this.eatComplete, this);
+        
+        eatM.onComplete.add(this.eatComplete, this);
+        eatD.onComplete.add(this.eatComplete, this);
     },
     setMouseAnimations: function(mouse) {
-        mouse.animations.add('walk', [0], 12, false);
+        mouse.animations.add('walk', [0, 0, 0, 4], 2, true);
         var flip = mouse.animations.add('flip', [0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8], 12, false);
+        flip.onComplete.add(this.flipComplete, this);
+    },
+    setDogAnimations: function(dog) {
+        dog.animations.add('walk', [0, 0, 0, 0, 0, 0, 0, 4], 2, true);
+        var flip = dog.animations.add('flip', [0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8], 12, false);
         flip.onComplete.add(this.flipComplete, this);
     },
     wrongWay:function() {
@@ -186,11 +202,15 @@ var StateMain={
         this.enemyIndex++;
         this.launchTimer = game.time.now + Phaser.Timer.SECOND * 5;
     },
-    collisionHandler: function(mondo, mouse){
+    collisionHandler: function(mondo, enemy){
         this.eating = true;
-        mondo.play('eatMouse');
-        mouse.play('flip');
-        mouse.body.velocity.x = 50;
+        if (enemy.key == "mouse") {
+            mondo.play('eatMouse');  
+        } else {
+            mondo.play('eatDog');
+        }
+        enemy.play('flip');
+        enemy.body.velocity.x = 50;
     },
     eatComplete: function(sprite, animation){
         this.eating = false;
