@@ -1,7 +1,4 @@
 var cursors;
-var gobbleDog;
-var gobbleMouse;
-var mouse1dead;
 var walkingLeft;
 var bellyBopPhone;
 var walkingRight;
@@ -187,12 +184,6 @@ var StateMain={
         dog.animations.add('walk', [0, 0, 0, 0, 0, 0, 0, 4], 2, true);
         var flip = dog.animations.add('flip', [0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 6, 7, 8], 12, false);
         flip.onComplete.add(this.flipComplete, this);
-    },
-    wrongWay:function() {
-        document.getElementById("wrongWay").style.display="block";
-    },
-    rightWay:function() {
-        document.getElementById("wrongWay").style.display="none";
     },
     mondoVengePoints: function(points) {
         points = points || 0;
