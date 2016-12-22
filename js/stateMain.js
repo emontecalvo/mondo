@@ -40,15 +40,25 @@ var StateMain={
         //this.mondo.scale.x = 0.5;
         this.mondo.fixedToCamera = true;
 
-      //  this.mouse = game.add.sprite(600,this.background.y+300,"mouse");
+        this.mouse = game.add.sprite(600,this.background.y+300,"mouse");
 
-        this.mice = game.add.group();
-        this.mice.createMultiple(5, 'mouse');
-        this.mice.setAll('anochor.x', 600);
-        this.mice.setAll('anchor.y', this.background.y+300);
-        this.mice.setAll("checkWorldBounds", true);
-        this.mice.setAll("outOfBoundsKill", true);
-        this.launchMice();
+       //  this.mice = game.add.group();
+       //  this.mice.createMultiple(5, 'mouse');
+       //  this.mice.setAll('anochor.x', 600);
+       //  this.mice.setAll('anchor.y', this.background.y+300);
+       //  for (var i = 0, len = this.mice.children.length; i < len; i++) {
+
+       //      this.mouse = this.mice.children[i];
+       //      this.mouse.x = 600;
+       //      this.mouse.y = this.background.y+300;
+       //      console.log(this.mice.children[i]);
+       //  }
+       //  //game.time.events.repeat(Phaser.Timer.SECOND, 20, this.launchMice, this);
+       //  // this.mice.setAll('anochor.x', 600);
+       //  // this.mice.setAll('anchor.y', this.background.y+300);
+       //  // this.mice.setAll("checkWorldBounds", true);
+       //  // this.mice.setAll("outOfBoundsKill", true);
+       // // this.launchMice();
 
         // buttons
         this.phoneLeft = game.add.button(100, this.background.y + 440, "playBtn", this.walkMondoLeft, this, 0);
@@ -90,34 +100,46 @@ var StateMain={
             game.scale.enterIncorrectOrientation.add(this.wrongWay,this);
             game.scale.leaveIncorrectOrientation.add(this.rightWay,this);
         }
-        game.time.events.loop(Phaser.Timer.SECOND*this.delay, this.launchMice, this);
+        //game.time.events.loop(Phaser.Timer.SECOND*this.delay, this.launchMice, this);
         cursors = game.input.keyboard.createCursorKeys();
         gobbleMouse = game.input.keyboard.addKey(Phaser.Keyboard.M);
         gobbleDog = game.input.keyboard.addKey(Phaser.Keyboard.D);
     },
-    launchMice: function() {
-        var MIN_ENEMY_SPACING = 300;
-        var MAX_ENEMY_SPACING = 3000;
-        //var ENEMY_SPEED = 300;
+    // launchMice: function() {
+    //     var MIN_ENEMY_SPACING = 300;
+    //     var MAX_ENEMY_SPACING = 3000;
+    //     //var ENEMY_SPEED = 300;
 
-        this.mouse = this.mice.getFirstDead(false);
-        this.mouse.x = 600;
-        this.mouse.y = this.background.y+300;
-        this.walkMouse();
-        console.log(this.mouse);
-        console.log(this.mouse.x);
-        console.log(this.mouse.y);
-        console.log(this.mouse.sprite);
-        // if (mouse) {
-        //     enemy.reset(game.rnd.integerInRange(0, game.width), -20);
-        //     enemy.body.velocity.x = game.rnd.integerInRange(-300, 300);
-        //     enemy.body.velocity.y = ENEMY_SPEED;
-        //     enemy.body.drag.x = 100;
-        // }
+    //     this.mouse = this.mice.getFirstDead(false);
 
-        //  Send another enemy soon
-       //game.time.events.add(game.rnd.integerInRange(MIN_ENEMY_SPACING, MAX_ENEMY_SPACING), this.launchMice);
-    },
+    //     if (this.mouse) {
+    //     //  And bring it back to life
+    //         mice.reset(game.world.randomX, game.world.randomY);
+    //     //  This just changes its frame
+    //         mice.frame = game.rnd.integerInRange(0, 36);
+    //     }
+    //     this.mouse.x = 600;
+    //     this.mouse.y = this.background.y+300;
+    //    //  this.walkMouse();
+    //    //  console.log(this.mouse);
+    //    //  console.log(this.mouse.x);
+    //    //  console.log(this.mouse.y);
+    //    //  console.log(this.mouse.sprite);
+    //    //  // if (mouse) {
+    //    //  //     enemy.reset(game.rnd.integerInRange(0, game.width), -20);
+    //    //  //     enemy.body.velocity.x = game.rnd.integerInRange(-300, 300);
+    //    //  //     enemy.body.velocity.y = ENEMY_SPEED;
+    //    //  //     enemy.body.drag.x = 100;
+    //    //  // }
+
+    //    //  //  Send another enemy soon
+    //    // //game.time.events.add(game.rnd.integerInRange(MIN_ENEMY_SPACING, MAX_ENEMY_SPACING), this.launchMice);
+    
+
+
+
+
+    // },
     mondoEatDog: function() {
         this.mondo.animations.add('eatDog', [3, 4, 4, 4, 1], 2, false);
     },
@@ -159,7 +181,6 @@ var StateMain={
             this.mouse.animations.add('walk', [0], 12, false);
             this.mouse.x -= 1;
             this.mouse.animations.play('walk');
-            console.log(this.mouse.x);
         }
     },
     flipMouse: function() {
