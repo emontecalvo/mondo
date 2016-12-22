@@ -7,7 +7,7 @@ var mouse;
 var FallState={
     init: function() {
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        this.mondoVengence = 0;
+        this.mondoVengeance = 0;
         this.enemyIndex = 0;
         this.FoodIndex = 0;
     },
@@ -38,7 +38,7 @@ var FallState={
         this.enemies = game.add.group();
         this.enemies.enableBody = true;
         this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
-        for (var i = 0; i < 8; i++) {
+        for (var i = 0; i < 3; i++) {
             if (i % 3 == 0) {
                 var dog = this.enemies.create(game.width, this.background.y+300, "chihuahua");
                 this.setDogAnimations(dog);
@@ -87,14 +87,14 @@ var FallState={
         this.phoneJump.scale.setTo(0.15, 0.15);
 
         // Text for vegence score
-        this.textScore = game.add.text(game.world.centerX, this.top+60, mondoVengence);
+        this.textScore = game.add.text(game.world.centerX, this.top+60, mondoVengeance);
         this.textScore.fill="000000";
         this.textScore.font= "VT323";
         this.textScore.fontSize=40;
         this.textScore.anchor.set(0.5,0.5);
 
-        // Label for vengence score
-        this.labelScore = game.add.text(game.world.centerX, this.top+20, "vengence points:");
+        // Label for vengeance score
+        this.labelScore = game.add.text(game.world.centerX, this.top+20, "vengeance points:");
         this.labelScore.fill="000000";
         this.labelScore.font= "VT323";
         this.labelScore.fontSize=40;
@@ -103,7 +103,7 @@ var FallState={
         // Initializers
         this.setListeners();
         this.setMondoAnimations();
-        this.mondoVengePoints(this.mondoVengence);
+        this.mondoVengePoints(this.mondoVengeance);
         this.launchEnemies();
         this.launchFood();
 	},
@@ -187,8 +187,8 @@ var FallState={
     },
     mondoVengePoints: function(points) {
         points = points || 0;
-        mondoVengence += points;
-        this.textScore.text=mondoVengence;
+        mondoVengeance += points;
+        this.textScore.text=mondoVengeance;
     },
     mondoJump: function() {
         this.mondo.body.velocity.y = -4000;
@@ -205,7 +205,10 @@ var FallState={
             enemy.body.velocity.x = -50;
         }
         this.enemyIndex++;
-        this.launchTimer = game.time.now + Phaser.Timer.SECOND * 5;
+        this.launchTimer = game.time.now + Phaser.Timer.SECOND * 4;
+        if(enemy == -1) {
+            game.state.start("BeachState");
+        }
     },
     launchFood: function() {
         var food = this.foodie.getAt(this.FoodIndex);

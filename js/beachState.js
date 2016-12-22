@@ -4,7 +4,7 @@ var bellyBopPhone;
 var walkingRight;
 var mouse;
 
-var StateMain={
+var BeachState={
     init: function() {
         game.physics.startSystem(Phaser.Physics.ARCADE);
         this.mondoVengeance = 0;
@@ -15,7 +15,7 @@ var StateMain={
      	if (screen.width < 1500) {
      		game.scale.forceOrientation(true, false);
     	}
-    	game.load.image("background", "images/background1.png");
+    	game.load.image("background", "images/background3.png");
     	game.load.spritesheet("mondo", "images/mondo.png", 320, 265, 8);
         game.load.spritesheet("playBtn", "images/playBtns.png", 624, 290, 4);
     	game.load.spritesheet("mouse", "images/mouse.png", 168, 170, 8);
@@ -52,12 +52,12 @@ var StateMain={
         this.foodie = game.add.group();
         this.foodie.enableBody = true;
         this.foodie.physicsBodyType = Phaser.Physics.ARCADE;
-        for (var i = 0; i < 8; i++) {
+        for (var i = 0; i < 10; i++) {
             var food = this.foodie.create(game.width, this.background.y+100, 'food');
             this.setFoodAnimations(food);
         }
 
-        mondoVengeance = 0;
+        // mondoVengence = 0;
 
         this.enemies.setAll("outOfBoundsKill", true);
         this.enemies.setAll('checkWorldBounds', true);
@@ -87,7 +87,7 @@ var StateMain={
         this.phoneJump.scale.setTo(0.15, 0.15);
 
         // Text for vegence score
-        this.textScore = game.add.text(game.world.centerX, this.top+60, "0");
+        this.textScore = game.add.text(game.world.centerX, this.top+60, mondoVengeance);
         this.textScore.fill="000000";
         this.textScore.font= "VT323";
         this.textScore.fontSize=40;
@@ -103,7 +103,7 @@ var StateMain={
         // Initializers
         this.setListeners();
         this.setMondoAnimations();
-        this.mondoVengePoints(this.mondoVengence);
+        this.mondoVengePoints(this.mondoVengeance);
         this.launchEnemies();
         this.launchFood();
 	},
@@ -205,9 +205,9 @@ var StateMain={
             enemy.body.velocity.x = -50;
         }
         this.enemyIndex++;
-        this.launchTimer = game.time.now + Phaser.Timer.SECOND * 5;
+        this.launchTimer = game.time.now + Phaser.Timer.SECOND * 3;
         if(enemy == -1) {
-            game.state.start("FallState");
+            game.state.start("StateOver");
         }
     },
     launchFood: function() {

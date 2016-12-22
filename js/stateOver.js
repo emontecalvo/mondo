@@ -1,7 +1,7 @@
-var StateHome = {
+var StateOver = {
 
     preload: function () {
-        game.load.spritesheet("startBtn", "images/startBtn.png", 450, 156);
+        game.load.spritesheet("startBtn", "images/replayBtn.png", 448, 142);
         game.load.spritesheet("mondo", "images/mondoIntro.png", 851, 658, 1);
     },
 
@@ -23,9 +23,12 @@ var StateHome = {
             , align: "center"
         });
         this.titleText.anchor.set(0.5, 0.5);
+
+        this.thanks = game.add.text(game.world.centerX, 230, "mondo thanks you for playing");
+        this.thanks.anchor.set(0.5, 0.5);
     }
     , startGame: function () {
-        game.state.start("StateInstructions");
+        game.state.start("StateInstructions2");
     }
     , update: function () {
 
