@@ -15,7 +15,7 @@ var StateHome = {
         this.mondoStart.anchor.set(0.5, 0.8);
         game.stage.backgroundColor = "#fdf0d4";
 
-        this.titleText = game.add.text(game.world.centerX, 60, "mondo is phat", {
+        this.titleText = game.add.text(game.world.centerX, 150, "mondo is phat", {
             font: "50px Arial"
             , fill: "#1368B3"
             , stroke: "#222222"
