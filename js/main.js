@@ -3,6 +3,12 @@ var mondoVengeance;
 
 window.onload = function()
 {
+    // game definition, 100% of browser window dimension
+    // game = new Phaser.Game("100%","100%",Phaser.CANVAS,"",{
+    //     preload:onPreload,
+    //     create:onCreate,
+    //     resize:onResize // <- this will be called each time the game is resized
+    // }); 
     if (screen.width>1500)
 	{
 		// desktop or laptop
@@ -12,7 +18,7 @@ window.onload = function()
 	{		
 		// mobile device
 		game=new Phaser.Game(window.innerWidth,window.innerHeight,Phaser.AUTO,"ph_game");		
-	}
+	}    
 //    game.state.add("StateMain",StateMain);
     game.state.add("StateHome",StateHome);
     game.state.add("StateInstructions",StateInstructions);
@@ -22,4 +28,5 @@ window.onload = function()
     game.state.add("BeachState", BeachState);
     game.state.add("StateOver", StateOver);
     game.state.start("StateHome");
+
 }
