@@ -15,7 +15,7 @@ var StateOver = {
         this.mondoStart.anchor.set(0.5, 0.8);
         game.stage.backgroundColor = "#fdf0d4";
 
-        this.titleText = game.add.text(game.world.centerX, 60, "mondo is phat", {
+        this.titleText = game.add.text(game.world.centerX, 100, "mondo is phat", {
             font: "50px Arial"
             , fill: "#1368B3"
             , stroke: "#222222"
@@ -24,7 +24,7 @@ var StateOver = {
         });
         this.titleText.anchor.set(0.5, 0.5);
 
-        this.thanks = game.add.text(game.world.centerX, 230, "mondo thanks you for playing");
+        this.thanks = game.add.text(game.world.centerX, 150, "mondo thanks you for playing");
         this.thanks.anchor.set(0.5, 0.5);
     }
     , startGame: function () {

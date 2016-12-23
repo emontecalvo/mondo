@@ -27,22 +27,22 @@ var FallState={
         // Background
         this.background = game.add.tileSprite(0, game.height-480, game.width, 480, 'background');
         // ipad fix:
-        if (screen.height >=764) {
-            this.background.y=game.world.centerY-this.background.height/2;
-            this.top=this.background.y;
-            this.bottom = this.background.y+360;
-        }
+        //if (screen.height >=764) {
+        //    this.background.y=game.world.centerY-this.background.height/2;
+        this.top = this.background.y;
+        this.bottom = this.top+480;
+        //}
 
         // Enemies
         this.enemies = game.add.group();
         this.enemies.enableBody = true;
         this.enemies.physicsBodyType = Phaser.Physics.ARCADE;
-        for (var i = 0; i < 15; i++) {
+        for (var i = 0; i < 4; i++) {
             if (i % 3 == 0) {
-                var dog = this.enemies.create(game.width, this.background.y+300, "chihuahua");
+                var dog = this.enemies.create(game.width, this.bottom-150, "chihuahua");
                 this.setDogAnimations(dog);
             } else {
-                var mouse = this.enemies.create(game.width, this.background.y+300, 'mouse');
+                var mouse = this.enemies.create(game.width, this.bottom-150, 'mouse');
                 this.setMouseAnimations(mouse);
             }
         }
@@ -51,12 +51,13 @@ var FallState={
         this.foodie = game.add.group();
         this.foodie.enableBody = true;
         this.foodie.physicsBodyType = Phaser.Physics.ARCADE;
-        for (var i = 0; i < 8; i++) {
-            var food = this.foodie.create(game.width, this.background.y+100, 'food');
+        for (var i = 0; i < 15; i++) {
+            var food = this.foodie.create(game.width, this.bottom-280, 'food');
             this.setFoodAnimations(food);
         }
 
-        // mondoVengence = 0;
+        //sound
+        this.lipSmack = game.add.audio("lipSmack");
 
         this.enemies.setAll("outOfBoundsKill", true);
         this.enemies.setAll('checkWorldBounds', true);
@@ -64,7 +65,7 @@ var FallState={
         this.foodie.setAll('checkWorldBounds', true);
        
         // Mondo
-        this.mondo = game.add.sprite(0,this.background.y + 250,"mondo");
+        this.mondo = game.add.sprite(0,this.bottom - 10, "mondo");
         this.mondo.scale.setTo(0.8, 0.8);
         game.physics.enable(this.mondo, Phaser.Physics.ARCADE);
         this.mondo.enableBody = true;
@@ -73,41 +74,39 @@ var FallState={
         this.mondo.body.gravity.y = 0;
 
         // Buttons
-        this.phoneLeft = game.add.button(100, this.background.y + 440, "playBtn", this.buttonWalkLeft, this, 0);
+        this.phoneLeft = game.add.button(game.world.centerX - 200, this.bottom - 60, "playBtn", this.buttonWalkLeft, this, 0, 0);
         this.phoneLeft.scale.setTo(0.15, 0.15);
-
-        this.phoneRight = game.add.button(400, this.background.y + 440, "playBtn", this.buttonWalkRight, this, 1);
+        
+        this.phoneBop = game.add.button(game.world.centerX - 100, this.bottom - 60, "playBtn", this.bellyBopForPhone, this, 2, 2);
+        this.phoneBop.scale.setTo(0.15, 0.15);
+        
+        this.phoneJump = game.add.button(game.world.centerX, this.bottom - 60, "playBtn", this.mondoPhoneJump, this, 3, 3);
+        this.phoneJump.scale.setTo(0.15, 0.15);
+        
+        this.phoneRight = game.add.button(game.world.centerX + 100, this.bottom - 60, "playBtn", this.buttonWalkRight, this, 1, 1);
         this.phoneRight.scale.setTo(0.15, 0.15);
 
-        this.phoneBop = game.add.button(200, this.background.y + 440, "playBtn", this.bellyBopForPhone, this, 2);
-        this.phoneBop.scale.setTo(0.15, 0.15);
-
-        this.phoneJump = game.add.button(300, this.background.y + 440, "playBtn", this.mondoPhoneJump, this, 3);
-        this.phoneJump.scale.setTo(0.15, 0.15);
-
         // Text for vegence score
-        this.textScore = game.add.text(game.world.centerX, this.top+60, mondoVengeance);
+        this.textScore = game.add.text(game.world.centerX, 60, "0");
         this.textScore.fill="000000";
         this.textScore.font= "VT323";
         this.textScore.fontSize=40;
         this.textScore.anchor.set(0.5,0.5);
 
-        // Label for vengeance score
-        this.labelScore = game.add.text(game.world.centerX, this.top+20, "vengeance points:");
+        // Label for vengence score
+        this.labelScore = game.add.text(game.world.centerX, 20, "vengeance points:");
         this.labelScore.fill="000000";
         this.labelScore.font= "VT323";
         this.labelScore.fontSize=40;
         this.labelScore.anchor.set(0.5,0.5);
 
-        //sound
-        this.lipSmack = game.add.audio("lipSmack");
-
         // Initializers
         this.setListeners();
         this.setMondoAnimations();
-        this.mondoVengePoints(this.mondoVengeance);
+        this.mondoVengePoints(this.mondoVengence);
         this.launchEnemies();
         this.launchFood();
+
     },
 
     update: function() {
@@ -149,12 +148,16 @@ var FallState={
 
     },
     setListeners:function() {
-        if (screen.width < 1500) {
-            game.scale.enterIncorrectOrientation.add(this.wrongWay,this);
-            game.scale.leaveIncorrectOrientation.add(this.rightWay,this);
-        }
+        game.scale.enterIncorrectOrientation.add(this.wrongWay,this);
+        game.scale.leaveIncorrectOrientation.add(this.rightWay,this);
         
         cursors = game.input.keyboard.createCursorKeys();
+    },
+    wrongWay:function() {
+        document.getElementById("wrongWay").style.display="block";
+    },
+    rightWay:function() {
+        document.getElementById("wrongWay").style.display="none";
     },
     setMondoAnimations: function() {
         this.mondo.animations.add('eatDog', [3, 4, 4, 4, 1], 2, false);
