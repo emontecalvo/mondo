@@ -7,8 +7,8 @@ var StateInstructions = {
 
     create: function () {
         this.vengeStart = game.add.button(game.world.centerX, game.world.centerY + 150, "vengeBtn", this.startGame, this, 0, 1, 0);
-        this.vengeStart.scale.setTo(0.5, 0.5);
-        this.vengeStart.anchor.set(0.5, 0.9);
+        this.vengeStart.scale.setTo(0.6, 0.6);
+        this.vengeStart.anchor.set(0.5, 0.5);
 
         // mondo
         this.mondoStart = game.add.sprite(game.world.centerX, game.world.centerY, "mondo");
@@ -25,9 +25,9 @@ var StateInstructions = {
         });
         this.titleText.anchor.set(0.9, 0.9);
 
-        this.backstory1 = game.add.text(game.world.centerX, 150, "a relaxing game in which Mondo");
+        this.backstory1 = game.add.text(game.world.centerX, 230, "a relaxing game in which Mondo");
         this.backstory1.anchor.set(0.5, 0.5);
-        this.instruc1 = game.add.text(game.world.centerX, 180, "eats his way towards vengeance");
+        this.instruc1 = game.add.text(game.world.centerX, 290, "eats his way towards vengeance");
         this.instruc1.anchor.set(0.5, 0.5);
     }
     , startGame: function () {
