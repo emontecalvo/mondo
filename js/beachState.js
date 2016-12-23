@@ -149,10 +149,10 @@ var BeachState={
 
     },
     setListeners:function() {
-        if (screen.width < 1500) {
-            game.scale.enterIncorrectOrientation.add(this.wrongWay,this);
-            game.scale.leaveIncorrectOrientation.add(this.rightWay,this);
-        }
+        // if (screen.width < 1500) {
+        //     game.scale.enterIncorrectOrientation.add(this.wrongWay,this);
+        //     game.scale.leaveIncorrectOrientation.add(this.rightWay,this);
+        // }
         
         cursors = game.input.keyboard.createCursorKeys();
     },

@@ -56,21 +56,21 @@ var FallState={
             this.setFoodAnimations(food);
         }
 
-        // mondoVengence = 0;
-
         this.enemies.setAll("outOfBoundsKill", true);
         this.enemies.setAll('checkWorldBounds', true);
         this.foodie.setAll("outOfBoundsKill", true);
         this.foodie.setAll('checkWorldBounds', true);
        
         // Mondo
-        this.mondo = game.add.sprite(0,this.background.y + 250,"mondo");
+        this.mondo = game.add.sprite(0,this.background.y + 200,"mondo");
         this.mondo.scale.setTo(0.8, 0.8);
-        game.physics.enable(this.mondo, Phaser.Physics.ARCADE);
+        //game.physics.enable(this.mondo, Phaser.Physics.ARCADE);
         this.mondo.enableBody = true;
         this.mondo.body.collideWorldBounds = true;
-        this.mondo.body.bounce.y = 0.8;
-        this.mondo.body.gravity.y = 0;
+       // this.mondo.body.bounce.y = 0.8;
+
+        //this.mondo.physicsBodyType = Phaser.Physics.ARCADE;
+        //this.mondo.body.gravity.y = 0;
 
         // Buttons
         this.phoneLeft = game.add.button(100, this.background.y + 440, "playBtn", this.buttonWalkLeft, this, 0);
@@ -149,10 +149,10 @@ var FallState={
 
     },
     setListeners:function() {
-        if (screen.width < 1500) {
-            game.scale.enterIncorrectOrientation.add(this.wrongWay,this);
-            game.scale.leaveIncorrectOrientation.add(this.rightWay,this);
-        }
+        // if (screen.width < 1500) {
+        //     game.scale.enterIncorrectOrientation.add(this.wrongWay,this);
+        //     game.scale.leaveIncorrectOrientation.add(this.rightWay,this);
+        // }
         
         cursors = game.input.keyboard.createCursorKeys();
     },
