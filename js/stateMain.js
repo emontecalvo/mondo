@@ -11,34 +11,19 @@ var StateMain={
         this.enemyIndex = 0;
         this.FoodIndex = 0;
     },
-	preload: function() {
-        //  This sets a limit on the up-scale
-        game.scale.maxWidth = 800;
-        game.scale.maxHeight = 600;
-
-        //  Then we tell Phaser that we want it to scale up to whatever the browser can handle, but to do it proportionally
-        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        game.scale.updateLayout(true);
-        game.scale.minWidth = 480;
-        game.scale.minHeight = 260;
-        game.scale.forceLandscape = true;
-        game.scale.pageAlignHorizontally = true;
-
-
-
-     	if (screen.width < 1500) {
-     		game.scale.forceOrientation(true, false);
-    	}
-    	game.load.image("background", "images/background1.png");
-    	game.load.spritesheet("mondo", "images/mondo.png", 320, 265, 8);
+    preload: function() {
+        if (screen.width < 1500) {
+            game.scale.forceOrientation(true, false);
+        }
+        game.load.image("background", "images/background1.png");
+        game.load.spritesheet("mondo", "images/mondo.png", 320, 265, 8);
         game.load.spritesheet("playBtn", "images/playBtns.png", 624, 290, 4);
-    	game.load.spritesheet("mouse", "images/mouse.png", 168, 170, 8);
-    	game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 130, 8);
+        game.load.spritesheet("mouse", "images/mouse.png", 168, 170, 8);
+        game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 130, 8);
         game.load.spritesheet("food", "images/food.png", 67, 78, 8);
         game.load.audio("lipSmack", "sounds/SmackLips.mp3");
-	},
-	create: function() {
-
+    },
+    create: function() {
         // Background
         this.background = game.add.tileSprite(0, game.height-480, game.width, 480, 'background');
         // ipad fix:
@@ -91,26 +76,26 @@ var StateMain={
         this.mondo.body.gravity.y = 0;
 
         // Buttons
-        this.phoneLeft = game.add.button(100, this.background.y + 415, "playBtn", this.buttonWalkLeft, this, 0);
+        this.phoneLeft = game.add.button(100, this.background.y + 440, "playBtn", this.buttonWalkLeft, this, 0);
         this.phoneLeft.scale.setTo(0.15, 0.15);
 
-        this.phoneRight = game.add.button(400, this.background.y + 415, "playBtn", this.buttonWalkRight, this, 1);
+        this.phoneRight = game.add.button(400, this.background.y + 440, "playBtn", this.buttonWalkRight, this, 1);
         this.phoneRight.scale.setTo(0.15, 0.15);
 
-        this.phoneBop = game.add.button(200, this.background.y + 415, "playBtn", this.bellyBopForPhone, this, 2);
+        this.phoneBop = game.add.button(200, this.background.y + 440, "playBtn", this.bellyBopForPhone, this, 2);
         this.phoneBop.scale.setTo(0.15, 0.15);
 
-        this.phoneJump = game.add.button(300, this.background.y + 415, "playBtn", this.mondoPhoneJump, this, 3);
+        this.phoneJump = game.add.button(300, this.background.y + 440, "playBtn", this.mondoPhoneJump, this, 3);
         this.phoneJump.scale.setTo(0.15, 0.15);
 
-        // Text for vegeance score
+        // Text for vegence score
         this.textScore = game.add.text(game.world.centerX, this.top+60, "0");
         this.textScore.fill="000000";
         this.textScore.font= "VT323";
         this.textScore.fontSize=40;
         this.textScore.anchor.set(0.5,0.5);
 
-        // Label for vengeance score
+        // Label for vengence score
         this.labelScore = game.add.text(game.world.centerX, this.top+20, "vengeance points:");
         this.labelScore.fill="000000";
         this.labelScore.font= "VT323";
@@ -120,11 +105,11 @@ var StateMain={
         // Initializers
         this.setListeners();
         this.setMondoAnimations();
-        this.mondoVengePoints(this.mondoVengeance);
+        this.mondoVengePoints(this.mondoVengence);
         this.launchEnemies();
         this.launchFood();
 
-	},
+    },
 
     update: function() {
         this.mondo.body.velocity.setTo(0,0);
@@ -165,10 +150,10 @@ var StateMain={
 
     },
     setListeners:function() {
-        // if (screen.width < 1500) {
-        //     game.scale.enterIncorrectOrientation.add(this.wrongWay,this);
-        //     game.scale.leaveIncorrectOrientation.add(this.rightWay,this);
-        // }
+        if (screen.width < 1500) {
+            game.scale.enterIncorrectOrientation.add(this.wrongWay,this);
+            game.scale.leaveIncorrectOrientation.add(this.rightWay,this);
+        }
         
         cursors = game.input.keyboard.createCursorKeys();
     },

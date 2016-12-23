@@ -11,19 +11,19 @@ var BeachState={
         this.enemyIndex = 0;
         this.FoodIndex = 0;
     },
-	preload: function() {
-     	if (screen.width < 1500) {
-     		game.scale.forceOrientation(true, false);
-    	}
-    	game.load.image("background", "images/background3.png");
-    	game.load.spritesheet("mondo", "images/mondo.png", 320, 265, 8);
+    preload: function() {
+        if (screen.width < 1500) {
+            game.scale.forceOrientation(true, false);
+        }
+        game.load.image("background", "images/background3.png");
+        game.load.spritesheet("mondo", "images/mondo.png", 320, 265, 8);
         game.load.spritesheet("playBtn", "images/playBtns.png", 624, 290, 4);
-    	game.load.spritesheet("mouse", "images/mouse.png", 168, 170, 8);
-    	game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 130, 8);
+        game.load.spritesheet("mouse", "images/mouse.png", 168, 170, 8);
+        game.load.spritesheet("chihuahua", "images/chihuahua.png", 132, 130, 8);
         game.load.spritesheet("food", "images/food.png", 67, 78, 8);
         game.load.audio("lipSmack", "sounds/SmackLips.mp3");
-	},
-	create: function() {
+    },
+    create: function() {
         // Background
         this.background = game.add.tileSprite(0, game.height-480, game.width, 480, 'background');
         // ipad fix:
@@ -108,7 +108,7 @@ var BeachState={
         this.mondoVengePoints(this.mondoVengeance);
         this.launchEnemies();
         this.launchFood();
-	},
+    },
 
     update: function() {
         this.mondo.body.velocity.setTo(0,0);
@@ -149,10 +149,10 @@ var BeachState={
 
     },
     setListeners:function() {
-        // if (screen.width < 1500) {
-        //     game.scale.enterIncorrectOrientation.add(this.wrongWay,this);
-        //     game.scale.leaveIncorrectOrientation.add(this.rightWay,this);
-        // }
+        if (screen.width < 1500) {
+            game.scale.enterIncorrectOrientation.add(this.wrongWay,this);
+            game.scale.leaveIncorrectOrientation.add(this.rightWay,this);
+        }
         
         cursors = game.input.keyboard.createCursorKeys();
     },

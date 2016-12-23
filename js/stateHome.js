@@ -8,7 +8,6 @@ var StateHome = {
     create: function () {
         this.buttonStart = game.add.button(game.world.centerX, game.world.centerY + 100, "startBtn", this.startGame, this, 0, 1, 0);
         this.buttonStart.anchor.set(0.5, 0.5);
-        this.buttonStart.scale.setTo(0.7, 0.7);
 
         // mondo
         this.mondoStart = game.add.sprite(game.world.centerX, game.world.centerY, "mondo");
