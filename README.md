@@ -92,12 +92,10 @@ Planned future updates:
 
 
 
-Thanks for playing,
-Emily Monte Calvo
+*Thanks for playing!*
+~ Emily Monte Calvo
 
-*p.s.* a special thanks to vampaynani (https://github.com/vampaynani) for offering
-advice and help during my first phaser project
-
-
+*P.S.* A special thanks to vampaynani (https://github.com/vampaynani) for offering
+advice and help during my first phaser project.
 
 
