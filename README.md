@@ -48,18 +48,9 @@ php -S 0.0.0.0:8000 )
 
 6) bring glory to your ancestors
 
-##LIVE##
+###LIVE###
 Download the app live from the Android store:
 https://play.google.com/store/apps/details?id=com.illudiumphosdex.mondo&hl=en
-
-
-Thanks for playing,
-Emily Monte Calvo
-
-
-*p.s.* a special thanks to vampaynani (https://github.com/vampaynani) for offering
-advice and help during my first phaser project
-
 
 ###ORIGIN:###
 This project was created under the challenge of learning a completely new-to-me framework (Phaser) with a time frame of 5-days, start to finish, start to launch.
@@ -101,6 +92,11 @@ Planned future updates:
 
 
 
+Thanks for playing,
+Emily Monte Calvo
+
+*p.s.* a special thanks to vampaynani (https://github.com/vampaynani) for offering
+advice and help during my first phaser project
 
 
 
