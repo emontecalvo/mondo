@@ -2,41 +2,38 @@ mondo is phat
 
  ... a relaxing game in which mondo eats his way to vengeance
 
-
+![Alt text](./images/mondo.png?raw=true "Mondi is Phat")
 ![Alt text](./mondo_live.png?raw=true "Mondi is Phat")
-
-
-
 
 
 BACKSTORY:
 
- mondo is a phat and phabulous cat.
- he owns it like a BOSS!
- he eats what he eats, he hates what he hates and
+ Mondo is a Phat and Phabulous cat.
+ He owns it like a BOSS!
+ He eats what he eats, he hates what he hates and
  does what he wants.
 
- all he wanted was to eat and sleep, but the haters wouldn't
+ All he wanted was to eat and sleep, but the haters wouldn't
  leave him alone.
 
- sometimes, there is a peace that can only be found after war.
+ Sometimes, there is a peace that can only be found after war.
 
- and today, mondo got out of the house.
+ And today, mondo got out of the house.
 
 
 GAME OBJECTIVE:
-this is a relaxing game.  mondo eats the mice, chihuahuas,
-and food.  he likes only tuna, strawberry jam, hot cocoa 
+This is a relaxing game.  Mondo eats the mice, chihuahuas,
+and food.  He likes only tuna, strawberry jam, hot cocoa 
 and scrambled egggs.
 
-belly-bop the enemies (mice and chihuahuas)
+Belly-bop the enemies (mice and chihuahuas).
 
-jump to get the food.
+Jump to get the food.
 
-watch your vengeance points accumulate.
+Watch your vengeance points accumulate.
 
 
-SETUP:
+SETUP (locally):
 1) install phaser on your computer
 http://phaser.io/
 
@@ -53,6 +50,9 @@ php -S 0.0.0.0:8000 )
 
 6) bring glory to your ancestors
 
+.. OR download the app live from the Android store:
+https://play.google.com/store/apps/details?id=com.illudiumphosdex.mondo&hl=en
+
 
 thanks for playing,
 emc
@@ -67,6 +67,13 @@ all artwork is original
 sound effect "Smack Lips Sound", recorded by Mike Koenig,
 provided by Sound Bible at this link:
 http://soundbible.com/suggest.php?q=smack+lip&x=0&y=0
+
+
+UX:
+The wireframes, user-persona and UX-report can be found at this repo:
+https://github.com/emontecalvo/mondo_ux
+
+TECHNICAL:
 
 
 
