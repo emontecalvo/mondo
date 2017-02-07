@@ -48,23 +48,17 @@ php -S 0.0.0.0:8000 )
 
 6) bring glory to your ancestors
 
-.. OR download the app live from the Android store:
+##LIVE##
+Download the app live from the Android store:
 https://play.google.com/store/apps/details?id=com.illudiumphosdex.mondo&hl=en
 
 
-thanks for playing,
-emc
+Thanks for playing,
+Emily Monte Calvo
 
 
 *p.s.* a special thanks to vampaynani (https://github.com/vampaynani) for offering
 advice and help during my first phaser project
-
-*extra note:*
-all artwork is original
-
-sound effect *"Smack Lips Sound"*, recorded by Mike Koenig,
-provided by Sound Bible at this link:
-http://soundbible.com/suggest.php?q=smack+lip&x=0&y=0
 
 
 ###ORIGIN:###
@@ -85,9 +79,15 @@ https://github.com/emontecalvo/mondo_ux
 
   - The mobile experience is slightly different than playing on the web, due to how the buttons were coded.  Users prefered not to have to push the "walk" buttons too often on mobile, but on the web clicking the walk buttons were found to be a little more satisfying.
 
+  - Sound effect *"Smack Lips Sound"*, recorded by Mike Koenig,
+	provided by Sound Bible at this link:
+	http://soundbible.com/suggest.php?q=smack+lip&x=0&y=0
 
-  ###DEVELOPMENT ROADMAP###
-  	Planned future updates:
+  - All artwork is original.
+
+###DEVELOPMENT ROADMAP###
+Planned future updates:
+
    - The replay button works seamlessly on *Mondo Is Phat*, but an official "quit" button should be added to give a better sense of completeness to the user.
 
    - Extra levels with increasing levels of difficulty should be added.
