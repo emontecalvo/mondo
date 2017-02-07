@@ -1,6 +1,6 @@
 #mondo is phat#
 
- *... a relaxing game in which mondo eats his way to vengeance*
+ *... a relaxing game in which Mondo eats his way to vengeance*
 
 ![Alt text](./images/mondo.png?raw=true "Mondi is Phat")
 
