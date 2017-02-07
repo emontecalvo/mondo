@@ -5,7 +5,7 @@
 ![Alt text](./images/mondo.png?raw=true "Mondi is Phat")
 
 
-**BACKSTORY:**
+###BACKSTORY:###
  Mondo is a Phat and Phabulous cat.
  He owns it like a BOSS!
  He eats what he eats, he hates what he hates and
@@ -19,7 +19,7 @@
  And today, mondo got out of the house.
 
 
-**GAME OBJECTIVE:**
+###GAME OBJECTIVE:###
 This is a relaxing game.  Mondo eats the mice, chihuahuas,
 and food.  He likes only tuna, strawberry jam, hot cocoa 
 and scrambled egggs.
@@ -31,7 +31,7 @@ Jump to get the food.
 Watch your vengeance points accumulate.
 
 
-**SETUP (locally):**
+###SETUP (locally):###
 1) install phaser on your computer
 http://phaser.io/
 
@@ -67,7 +67,7 @@ provided by Sound Bible at this link:
 http://soundbible.com/suggest.php?q=smack+lip&x=0&y=0
 
 
-##PROJECT ORIGIN:##
+###ORIGIN:###
 This project was created under the challenge of learning a completely new-to-me framework (Phaser) with a time frame of 5-days, start to finish, start to launch.
 
 ###UX:###
@@ -84,6 +84,20 @@ https://github.com/emontecalvo/mondo_ux
   - Most of the physics were written using Phaser's built-in physics engine.
 
   - The mobile experience is slightly different than playing on the web, due to how the buttons were coded.  Users prefered not to have to push the "walk" buttons too often on mobile, but on the web clicking the walk buttons were found to be a little more satisfying.
+
+
+  ###DEVELOPMENT ROADMAP###
+  	Planned future updates:
+   - The replay button works seamlessly on *Mondo Is Phat*, but an official "quit" button should be added to give a better sense of completeness to the user.
+
+   - Extra levels with increasing levels of difficulty should be added.
+
+   - Revised animation to make the "belly-bop" more obvious for the mobile experience.
+
+   - Adding a consequence factor for Mondo would be a nice addition.
+
+   - Add a "sleep" animation after every completed level.
+
 
 
 
