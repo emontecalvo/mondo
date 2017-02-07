@@ -3,11 +3,9 @@ mondo is phat
  ... a relaxing game in which mondo eats his way to vengeance
 
 ![Alt text](./images/mondo.png?raw=true "Mondi is Phat")
-![Alt text](./mondo_live.png?raw=true "Mondi is Phat")
 
 
-BACKSTORY:
-
+**BACKSTORY:**
  Mondo is a Phat and Phabulous cat.
  He owns it like a BOSS!
  He eats what he eats, he hates what he hates and
@@ -69,11 +67,26 @@ provided by Sound Bible at this link:
 http://soundbible.com/suggest.php?q=smack+lip&x=0&y=0
 
 
+PROJECT ORIGIN:
+This project was created under the challenge of learning a completely new-to-me framework (Phaser) with a time frame of 5-days, start to finish, start to launch.
+
 UX:
 The wireframes, user-persona and UX-report can be found at this repo:
 https://github.com/emontecalvo/mondo_ux
 
 TECHNICAL:
+  - Mondo is Phat was built using Phaser, JavaScript, HTML, and CSS, (with IntelXDK and Cordova to ship).
+
+  - The setup code for window.onload resides in the js/main.js file, and from there the other game.state files are added.
+
+  - All spritesheets are found in the "images" folder and were created with Sketch and GIMP.
+
+  - Most of the physics were written using Phaser's built-in physics engine.
+
+  - The mobile experience is slightly different than playing on the web, due to how the buttons were coded.  Users prefered not to have to push the "walk" buttons too often on mobile, but on the web clicking the walk buttons were found to be a little more satisfying.
+
+
+
 
 
 
