@@ -3,6 +3,12 @@ mondo is phat
  ... a relaxing game in which mondo eats his way to vengeance
 
 
+![Alt text](./mondo_live.png?raw=true "Mondi is Phat")
+
+
+
+
+
 BACKSTORY:
 
  mondo is a phat and phabulous cat.
