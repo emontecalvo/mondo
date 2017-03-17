@@ -1,11 +1,11 @@
-#mondo is phat#
+# mondo is phat
 
  *... a relaxing game in which Mondo eats his way to vengeance*
 
 ![Alt text](./images/mondo.png?raw=true "Mondi is Phat")
 
 
-###BACKSTORY:###
+### BACKSTORY:
  Mondo is a Phat and Phabulous cat.
  He owns it like a BOSS!
  He eats what he eats, he hates what he hates and
@@ -19,7 +19,7 @@
  And today, mondo got out of the house.
 
 
-###GAME OBJECTIVE:###
+### GAME OBJECTIVE:
 This is a relaxing game.  Mondo eats the mice, chihuahuas,
 and food.  He likes only tuna, strawberry jam, hot cocoa 
 and scrambled egggs.
@@ -31,7 +31,7 @@ Jump to get the food.
 Watch your vengeance points accumulate.
 
 
-###SETUP (locally):###
+### SETUP (locally):
 1) install phaser on your computer
 http://phaser.io/
 
@@ -48,18 +48,18 @@ php -S 0.0.0.0:8000 )
 
 6) bring glory to your ancestors
 
-###LIVE###
+### LIVE
 Download the app live from the Android store:
 https://play.google.com/store/apps/details?id=com.illudiumphosdex.mondo&hl=en
 
-###ORIGIN:###
+### ORIGIN:
 This project was created under the challenge of learning a completely new-to-me framework (Phaser) with a time frame of 5-days, start to finish, start to launch.
 
-###UX:###
+### UX:
 The wireframes, user-persona and UX-report can be found at this repo:
 https://github.com/emontecalvo/mondo_ux
 
-###TECHNICAL:###
+### TECHNICAL:
   - Mondo is Phat was built using Phaser, JavaScript, HTML, and CSS, (with IntelXDK and Cordova to ship).
 
   - The setup code for window.onload resides in the js/main.js file, and from there the other game.state files are added.
@@ -76,7 +76,7 @@ https://github.com/emontecalvo/mondo_ux
 
   - All artwork is original.
 
-###DEVELOPMENT ROADMAP###
+### DEVELOPMENT ROADMAP
 Planned future updates:
 
    - The replay button works seamlessly on *Mondo Is Phat*, but an official "quit" button should be added to give a better sense of completeness to the user.
